@@ -1,15 +1,22 @@
 import React, { Component } from "react";
-import { Button, message } from "antd";
+//import { Button, message } from "antd";
 import './App.less';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+
+import Login from './pages/login/login';
+import Admin from './pages/admin/admin';
 
 export default class App extends Component{
-  
-  handleClick = () => {
-    message.success("Success!");
-  }
 
   render () {
-    return <Button type="primary" onClick={this.handleClick}>Primary</Button>
+    return (
+      <BrowserRouter>
+        <Switch>
+          <Route path='/login' component={Login}></Route>
+          <Route path='/admin' component={Admin}></Route> 
+        </Switch>
+      </BrowserRouter>
+    );
   }
 
 }
