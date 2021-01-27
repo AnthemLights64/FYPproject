@@ -15,6 +15,7 @@ const Login = () => {
         
     }
 
+
     return (
         <div className="login">
             <header className="login-header">
@@ -24,16 +25,45 @@ const Login = () => {
             <section className="login-content">
                 <h2>Login</h2>
                 <Form className="login-form" onFinish={onFinish}>
-                    <Form.Item name="username" rules={[{ required: true, message: 'Please input your Username!' }]}>
+                    <Form.Item
+                        name="username"
+                        rules={[
+                            { required: true, message: 'Please input your Username!' },
+                            { min: 4, message: 'Username must be at least 4 characters!'},
+                            { max: 12, message: 'Username can be at most 12 characters!'},
+                            { pattern: /^[a-zA-Z0-9_]+$/, message: 'Username must consist of letters, numbers or underscores!'},
+                        ]}
+                    >
+
                         <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+                    
                     </Form.Item>
 
-                    <Form.Item name="password" rules={[{ required: true, message: 'Please input your Password!' }]}>
-                        <Input
-                        prefix={<LockOutlined className="site-form-item-icon" />}
-                        type="password"
-                        placeholder="Password"
-                        />
+                    <Form.Item 
+                        name="password" 
+                        rules={[
+                            { required: true, message: 'Please input your Password!' },
+                            {
+                                validator: (_, value) => {
+                                    console.log('validator()', value);
+                                    if (!value) {
+                                        return Promise.reject("Password must be entered!");
+                                    } else if (value.length<4) {
+                                        return Promise.reject("Password cannot be less than 4 characters!");
+                                    } else if (value.length>12) {
+                                        return Promise.reject("Password cannot be more than 12 characters!");
+                                    } else if (!/^[a-zA-Z0-9_]+$/.test(value)) {
+                                        return Promise.reject("Password must consist of letters, numbers or underscores!");
+                                    } else {
+                                        return Promise.resolve();
+                                    }
+                                }
+                            },                        
+                        ]}
+                    >
+                        
+                        <Input prefix={<LockOutlined className="site-form-item-icon" />} type="password" placeholder="Password" />
+                    
                     </Form.Item>
 
                     <Form.Item>
