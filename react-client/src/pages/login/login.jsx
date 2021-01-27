@@ -7,12 +7,19 @@ import logo from './images/logo.png';
 
 const Login = () => {
 
+    const [form] = Form.useForm();
+
     // "values" includes an array of all form data
     const onFinish = values => {
-
         
         console.log('Received values of form: ',values);
-        
+        form.validateFields()
+            .then(values => {
+                console.log(values);
+            })
+            .catch(errorInfo => {
+                console.log(errorInfo);
+            });
     }
 
 
@@ -24,7 +31,7 @@ const Login = () => {
             </header>
             <section className="login-content">
                 <h2>Login</h2>
-                <Form className="login-form" onFinish={onFinish}>
+                <Form className="login-form" onFinish={onFinish} form={form}>
                     <Form.Item
                         name="username"
                         rules={[
