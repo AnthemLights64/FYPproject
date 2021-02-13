@@ -76,3 +76,11 @@ router.post('/manage/user/update', (req, res) => {
         });
 });
 
+// Delete user
+router.post('/manage/user/delete', (req, res) => {
+    const {userId} = req.body;
+    UserModel.deleteOne({_id: userId})
+        .then((doc) => {
+            res.send({status: 0});
+        });
+});
