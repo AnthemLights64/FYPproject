@@ -97,3 +97,16 @@ router.get('/manage/user/list', (req, res) => {
             res.send({status: 1, msg: 'Get users list exception occurs,. Please try again.'});
         });
 });
+
+// Add role
+router.post('/manage/role/add', (req, res) => {
+    const {roleName} = req.body;
+    RoleModel.create({name: roleName})
+        .then(role => {
+            res.send({status: 0, data: role});
+        }).catch(error => {
+            console.error('Add role exception occurs', error);
+            res.send({status: 1, msg: 'Add role exception occurs. Please try again.'});
+        });
+});
+
