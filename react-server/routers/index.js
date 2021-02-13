@@ -84,3 +84,16 @@ router.post('/manage/user/delete', (req, res) => {
             res.send({status: 0});
         });
 });
+
+// Get a list of all users
+router.get('/manage/user/list', (req, res) => {
+    UserModel.find({username: {'$ne': 'admin'}}) // $ne means not equal to
+        .then(users => {
+            RoleModel.find().then(roles => {
+                res.send({status: 0, data: {users, roles}});
+            });
+        }).catch(error => {
+            console.error('Get users list exception occurs', error)
+            res.send({status: 1, msg: 'Get users list exception occurs,. Please try again.'});
+        });
+});
