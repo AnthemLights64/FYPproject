@@ -120,3 +120,16 @@ router.get('/manage/role/list', (req, res) => {
             res.send({status: 1, msg: 'Get role list exception occurs. Please try again.'});
         });
 });
+
+// Update role (set permissions)
+router.post('/manage/role/update', (req, res) => {
+    const role = req.body;
+    role.auth_time = Date.now();
+    RoleModel.findOneAndUpdate({_id: role._id}, role)
+        .then(oldRole => {
+            res.send({status: 0, data: {...oldRole._doc, ...role}});
+        }).catch(error => {
+            console.error('Update role exception occurs', error);
+            res.send({status: 1, msg: 'Update role exception. Please try again.'});
+        });
+});
