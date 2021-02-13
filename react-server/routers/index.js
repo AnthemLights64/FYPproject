@@ -40,3 +40,25 @@ UserModel.findOne({username, password: md5(password)})
         res.send({status: 1, msg: 'Login exception occurs. Please try again.'});
     });
 });
+
+// Add user
+router.post('/manage/user/add', (req, res) => {
+    // Read the data of request parameters
+    const {username, password} = req.body;
+    // Check if the user already exists
+    // Search by username
+    UserModel.findOne({username})
+        .then(user => {
+            if (user) { // User already exists
+                res.send({status: 1, msg: 'This user already exists.'});
+                return new Promise(() => {});
+            } else { // User doesn't exist
+                return UserModel.create({...req.body, password: md5(password || 'WenlongLu')});
+            }
+        }).then(user => {
+            res.send({status: 0, data: user});
+        }).catch(error => {
+            console.error('Add user exception occurs', error);
+            res.send({status: 1, msg: 'Add user exception occurs. Please try again.'});
+        });
+});
