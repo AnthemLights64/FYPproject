@@ -110,3 +110,13 @@ router.post('/manage/role/add', (req, res) => {
         });
 });
 
+// Get role list
+router.get('/manage/role/list', (req, res) => {
+    RoleModel.find()
+        .then(roles => {
+            res.send({status: 0, data: roles});
+        }).catch(error => {
+            console.error('Get role list exception occurs', error);
+            res.send({status: 1, msg: 'Get role list exception occurs. Please try again.'});
+        });
+});
