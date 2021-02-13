@@ -62,3 +62,17 @@ router.post('/manage/user/add', (req, res) => {
             res.send({status: 1, msg: 'Add user exception occurs. Please try again.'});
         });
 });
+
+// Update user
+router.post('/manage/user/update', (req, res) => {
+    const user = req.body;
+    UserModel.findOneAndUpdate({_id: user._id}, user)
+        .then(oldUser => {
+            const data = Object.assign(oldUser, user);
+            res.send({status: 0, data});
+        }).catch(error => {
+            console.error('Update user exception occurs', error);
+            res.send({status: 1, msg: 'Update user exception occurs. Please try again.'});
+        });
+});
+
