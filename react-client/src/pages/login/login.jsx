@@ -4,6 +4,7 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
 import './login.less';
 import logo from './images/logo.png';
+import {reqLogin} from '../../api';
 
 const Login = () => {
 
@@ -15,7 +16,14 @@ const Login = () => {
         console.log('Received values of form: ',values);
         form.validateFields()
             .then(values => {
-                console.log(values);
+                //console.log(values);
+                // Login request
+                const {username, password} = values;
+                reqLogin(username, password).then(response => {
+                    console.log('Success', response.data);
+                }).catch(error => {
+                    console.log('Failed', error);
+                });
             })
             .catch(errorInfo => {
                 console.log(errorInfo);
@@ -52,7 +60,7 @@ const Login = () => {
                             { required: true, message: 'Please input your Password!' },
                             {
                                 validator: (_, value) => {
-                                    console.log('validator()', value);
+                                    //console.log('validator()', value);
                                     if (!value) {
                                         return Promise.reject("Password must be entered!");
                                     } else if (value.length<4) {

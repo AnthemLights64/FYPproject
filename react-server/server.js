@@ -23,7 +23,7 @@ const indexRouter = require('./routers');
 app.use('/', indexRouter);
 
 // Connect to the database via mongoose
-mongoose.connect('mongodb://localhost/server_db2', {useNewUrlParser: true})
+mongoose.connect('mongodb://localhost/server_db2', {useNewUrlParser: true, useUnifiedTopology: true})
     .then(() => {
         console.log("Successfully connected to the database!")
         // Start the server only when the database is connected

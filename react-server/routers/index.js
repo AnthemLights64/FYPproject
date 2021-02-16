@@ -16,6 +16,7 @@ const filter = { password: 0, __v: 0 }
 
 // Login
 router.post('/login', (req, res) => {
+const {username, password} = req.body;
 UserModel.findOne({username, password: md5(password)})
     .then(user => {
         if (user) {
