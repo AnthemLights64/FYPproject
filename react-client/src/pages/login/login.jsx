@@ -15,15 +15,16 @@ const Login = () => {
         
         console.log('Received values of form: ',values);
         form.validateFields()
-            .then(values => {
+            .then(async values => {
                 //console.log(values);
                 // Login request
                 const {username, password} = values;
-                reqLogin(username, password).then(response => {
+                try {
+                    const response = await reqLogin(username, password);
                     console.log('Success', response.data);
-                }).catch(error => {
-                    console.log('Failed', error);
-                });
+                } catch (error) {
+                    console.log('Failed', error)
+                }
             })
             .catch(errorInfo => {
                 console.log(errorInfo);
