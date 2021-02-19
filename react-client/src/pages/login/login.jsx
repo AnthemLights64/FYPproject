@@ -1,12 +1,15 @@
 import React from 'react';
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
 import './login.less';
 import logo from './images/logo.png';
 import {reqLogin} from '../../api';
+import { useHistory } from "react-router-dom";
 
 const Login = () => {
+
+    let history = useHistory();
 
     const [form] = Form.useForm();
 
@@ -20,7 +23,15 @@ const Login = () => {
                 // Login request
                 const {username, password} = values;
                 const response = await reqLogin(username, password);
-                console.log('Request Success', response.data);
+                //console.log('Request Success', response.data);
+                const result = response.data; // {status: 0, data: user} {status: 1, msg: 'xxx'}
+                if (result.status===0) { // Login successfully
+                    message.success('Login successfully!');
+                    // Jump to another screen (no need to go back to Login page)
+                    history.replace('/');
+                } else { // Login failed
+                    message.error(result.msg);
+                }
             })
             .catch(errorInfo => {
                 console.log(errorInfo);
