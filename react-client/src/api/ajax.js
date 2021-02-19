@@ -5,15 +5,28 @@
 */
 
 import axios from 'axios';
+import {message} from 'antd';
 
 export default function ajax(url, data={}, type='GET') {
-    if (type==='GET') {
-        return axios.get(url, {
-            params: data
+
+    return new Promise((resolve, reject) => {
+        let promise;
+        // Execute asynchronous ajax requests
+        if (type==='GET') {
+            promise =  axios.get(url, {
+                params: data
+            });
+        } else {
+            promise =  axios.post(url, data);
+        }
+        promise.then(response => { // If succeeded, invoke resolve(value)
+            resolve(response);
+        }).catch(error => { // If failed, prompt exception messages instead of invoking reject(value)
+            message.error('Request error: ' + error.message);
         });
-    } else {
-        return axios.post(url, data);
-    }
+    });
+
+    
 }
 
 ajax('/login', {username: 'WenlongLu', password: '0604'}, 'POST').then();

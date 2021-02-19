@@ -19,18 +19,13 @@ const Login = () => {
                 //console.log(values);
                 // Login request
                 const {username, password} = values;
-                try {
-                    const response = await reqLogin(username, password);
-                    console.log('Success', response.data);
-                } catch (error) {
-                    console.log('Failed', error)
-                }
+                const response = await reqLogin(username, password);
+                console.log('Request Success', response.data);
             })
             .catch(errorInfo => {
                 console.log(errorInfo);
             });
     }
-
 
     return (
         <div className="login">
