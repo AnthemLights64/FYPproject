@@ -5,13 +5,20 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import './login.less';
 import logo from './images/logo.png';
 import {reqLogin} from '../../api';
-import { useHistory } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
+import memoryUtils from '../../utils/memoryUtils';
+import storageUtils from '../../utils/storageUtils';
 
 const Login = () => {
 
     let history = useHistory();
 
     const [form] = Form.useForm();
+
+    const user = memoryUtils.user;
+    if (user && user._id) {
+        return <Redirect to='/'/>
+    }
 
     // "values" includes an array of all form data
     const onFinish = values => {
@@ -27,6 +34,9 @@ const Login = () => {
                 const result = response.data; // {status: 0, data: user} {status: 1, msg: 'xxx'}
                 if (result.status===0) { // Login successfully
                     message.success('Login successfully!');
+                    const user = result.data;
+                    memoryUtils.user = user; // Save the user in the memory
+                    storageUtils.saveUser(user); // Save the user into local memory
                     // Jump to another screen (no need to go back to Login page)
                     history.replace('/');
                 } else { // Login failed
