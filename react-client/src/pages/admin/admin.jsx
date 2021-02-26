@@ -1,6 +1,11 @@
 import React, {Component} from 'react';
 import { Redirect } from 'react-router-dom';
 import memoryUtils from '../../utils/memoryUtils';
+import { Layout } from 'antd';
+import LeftNav from '../../components/left-nav';
+import Header from '../../components/header';
+
+const { Footer, Sider, Content } = Layout;
 
 export default class Admin extends Component {
     render () {
@@ -13,9 +18,16 @@ export default class Admin extends Component {
         }
 
         return (
-            <div>
-                Hello, {user.username}
-            </div>
+            <Layout style={{height:'100%'}}>
+                <Sider>
+                    <LeftNav/>
+                </Sider>
+                <Layout>
+                    <Header>Header</Header>
+                    <Content style={{backgroundColor: '#ffffff'}}>Content</Content>
+                    <Footer style={{textAlign: 'center'}}>Royal Never Give Up</Footer>
+                </Layout>
+            </Layout>
         );
     }
 }
