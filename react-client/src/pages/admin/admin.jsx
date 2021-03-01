@@ -1,9 +1,16 @@
 import React, {Component} from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import memoryUtils from '../../utils/memoryUtils';
 import { Layout } from 'antd';
 import LeftNav from '../../components/left-nav';
 import Header from '../../components/header';
+import Home from '../home/home';
+import Calendar from '../calendar/calendar';
+import Member from '../member/member';
+import MemberManagement from '../memberManagement/memberManagement';
+import RoleManagement from '../roleManagement/roleManagement';
+import UserManagement from '../userManagement/userManagement';
+
 
 const { Footer, Sider, Content } = Layout;
 
@@ -24,7 +31,17 @@ export default class Admin extends Component {
                 </Sider>
                 <Layout>
                     <Header>Header</Header>
-                    <Content style={{backgroundColor: '#ffffff'}}>Content</Content>
+                    <Content style={{backgroundColor: '#ffffff'}}>
+                        <Switch>
+                            <Route path='/home' component={Home}/>
+                            <Route path='/calendar' component={Calendar}/>
+                            <Route path='/member' component={Member}/>
+                            <Route path='/management/member' component={MemberManagement}/>
+                            <Route path='/management/user' component={UserManagement}/>
+                            <Route path='/management/role' component={RoleManagement}/>
+                            <Redirect to='/home'/>
+                        </Switch>
+                    </Content>
                     <Footer style={{textAlign: 'center'}}>Royal Never Give Up</Footer>
                 </Layout>
             </Layout>
