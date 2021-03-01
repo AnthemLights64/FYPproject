@@ -21,7 +21,7 @@ export default class LeftNav extends Component {
                     </Link>
 
                     <Menu
-                        defaultOpenKeys={['sub']}
+                        defaultOpenKeys={['Management']}
                         mode="inline"
                         theme="dark"
                         >
