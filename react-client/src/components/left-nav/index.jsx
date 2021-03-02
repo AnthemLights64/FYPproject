@@ -15,24 +15,45 @@ const {SubMenu} = Menu;
 
 export default class LeftNav extends Component {
 
+    // getMenuNodes_map = (menuList) => {
+    //     return menuList.map(item => {
+    //         if (!item.children) {
+    //             return (
+    //                 <Menu.Item key={item.key} icon={item.icon}>
+    //                     <Link to={item.route}>
+    //                         {item.title}
+    //                     </Link>
+    //                 </Menu.Item>
+    //             );
+    //         } else {
+    //             return (
+    //                 <SubMenu key={item.key} icon={item.icon} title={item.title}>
+    //                     {this.getMenuNodes(item.children)}
+    //                 </SubMenu>
+    //             );
+    //         }
+    //     });
+    // }
+
     getMenuNodes = (menuList) => {
-        return menuList.map(item => {
+        return menuList.reduce((pre, item) => {
             if (!item.children) {
-                return (
+                pre.push((
                     <Menu.Item key={item.key} icon={item.icon}>
                         <Link to={item.route}>
                             {item.title}
                         </Link>
                     </Menu.Item>
-                );
+                ));
             } else {
-                return (
+                pre.push((
                     <SubMenu key={item.key} icon={item.icon} title={item.title}>
                         {this.getMenuNodes(item.children)}
                     </SubMenu>
-                );
+                ));
             }
-        });
+            return pre;
+        }, []);
     }
 
     render () {
@@ -43,7 +64,7 @@ export default class LeftNav extends Component {
                     </Link>
 
                     <Menu
-                        defaultOpenKeys={['Management']}
+                        defaultOpenKeys={['management']}
                         mode="inline"
                         theme="dark"
                         >
