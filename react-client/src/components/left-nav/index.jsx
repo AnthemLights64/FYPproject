@@ -1,18 +1,40 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import { Menu } from 'antd';
-import {
-    HomeOutlined,
-    ScheduleOutlined,
-    TeamOutlined,
-    BarsOutlined
-  } from '@ant-design/icons';
+// import {
+//     HomeOutlined,
+//     ScheduleOutlined,
+//     TeamOutlined,
+//     BarsOutlined
+//   } from '@ant-design/icons';
 import './index.less';
 import logo from '../../assets/images/logo.png';
+import menuList from '../../config/menuConfig'; 
 
 const {SubMenu} = Menu;
 
 export default class LeftNav extends Component {
+
+    getMenuNodes = (menuList) => {
+        return menuList.map(item => {
+            if (!item.children) {
+                return (
+                    <Menu.Item key={item.key} icon={item.icon}>
+                        <Link to={item.route}>
+                            {item.title}
+                        </Link>
+                    </Menu.Item>
+                );
+            } else {
+                return (
+                    <SubMenu key={item.key} icon={item.icon} title={item.title}>
+                        {this.getMenuNodes(item.children)}
+                    </SubMenu>
+                );
+            }
+        });
+    }
+
     render () {
         return (
                 <div className="left-nav">
@@ -25,7 +47,7 @@ export default class LeftNav extends Component {
                         mode="inline"
                         theme="dark"
                         >
-                        <Menu.Item key="/home" icon={<HomeOutlined />}>
+                        {/* <Menu.Item key="/home" icon={<HomeOutlined />}>
                             <Link to='/home'>
                                 Homepage: Team
                             </Link>
@@ -56,8 +78,12 @@ export default class LeftNav extends Component {
                                     Role Management
                                 </Link>
                             </Menu.Item>
-                        </SubMenu>
+                        </SubMenu> */}
                         
+                        {
+                            this.getMenuNodes(menuList)
+                        }
+
                     </Menu>
                 </div>
 
