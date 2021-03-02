@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
+import { withRouter } from 'react-router-dom';
 import './index.less';
 import { formatDate } from '../../utils/dateUtils';
 import memoryUtils from '../../utils/memoryUtils';
-
-export default class Header extends Component {
+import menuList from '../../config/menuConfig';
+class Header extends Component {
 
     state = {
         currentTime: formatDate(Date.now()), // String of current time
@@ -14,6 +15,22 @@ export default class Header extends Component {
             const currentTime = formatDate(Date.now());
             this.setState({currentTime});
         }, 1000);
+    }
+
+    getTitle = () => {
+        const path = this.props.location.pathname;
+        let title;
+        menuList.forEach(item => {
+            if (item.route===path) {
+                title = item.title;
+            } else if (item.children) {
+                const cItem = item.children.find(cItem => cItem.route===path);
+                if (cItem) {
+                    title = cItem.title
+                }
+            }
+        });
+        return title;
     }
 
     // Execute once after the first execution of render()
@@ -28,6 +45,8 @@ export default class Header extends Component {
 
         const username = memoryUtils.user.username;
 
+        const title =  this.getTitle();
+
         return (
             <div className="header">
                 <div className="header-top">
@@ -35,7 +54,7 @@ export default class Header extends Component {
                     <a href="javascript:">Logout</a>
                 </div>
                 <div className="header-bottom">
-                    <div className="header-bottom-left">Homepage</div>
+                    <div className="header-bottom-left">{title}</div>
                     <div className="header-bottom-right">
                         <span>{currentTime}</span>
                     </div>
@@ -44,3 +63,5 @@ export default class Header extends Component {
         );
     }
 }
+
+export default withRouter(Header);
