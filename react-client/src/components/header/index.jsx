@@ -37,7 +37,7 @@ export default class Header extends Component {
                 <div className="header-bottom">
                     <div className="header-bottom-left">Homepage</div>
                     <div className="header-bottom-right">
-                        <sapn>{currentTime}</sapn>
+                        <span>{currentTime}</span>
                     </div>
                 </div>
             </div>

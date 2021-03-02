@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { Menu } from 'antd';
 // import {
 //     HomeOutlined,
@@ -12,8 +12,7 @@ import logo from '../../assets/images/logo.png';
 import menuList from '../../config/menuConfig'; 
 
 const {SubMenu} = Menu;
-
-export default class LeftNav extends Component {
+class LeftNav extends Component {
 
     // getMenuNodes_map = (menuList) => {
     //     return menuList.map(item => {
@@ -36,6 +35,9 @@ export default class LeftNav extends Component {
     // }
 
     getMenuNodes = (menuList) => {
+
+        const path = this.props.location.pathname;
+
         return menuList.reduce((pre, item) => {
             if (!item.children) {
                 pre.push((
@@ -46,6 +48,11 @@ export default class LeftNav extends Component {
                     </Menu.Item>
                 ));
             } else {
+                const cItem = item.children.find(i => i.route===path);
+                if (cItem) {
+                    this.openKey = item.key
+                }
+                
                 pre.push((
                     <SubMenu key={item.key} icon={item.icon} title={item.title}>
                         {this.getMenuNodes(item.children)}
@@ -56,7 +63,16 @@ export default class LeftNav extends Component {
         }, []);
     }
 
+    // Execute only once before the first render()
+    componentWillMount () {
+        this.menuNodes = this.getMenuNodes(menuList);
+    }
+
     render () {
+
+        const path = this.props.location.pathname;
+        const openKey = this.openKey;
+
         return (
                 <div className="left-nav">
                     <Link to='/' className="left-nav-header">
@@ -64,7 +80,8 @@ export default class LeftNav extends Component {
                     </Link>
 
                     <Menu
-                        defaultOpenKeys={['management']}
+                        defaultOpenKeys={[openKey]}
+                        selectedKeys={[path]}
                         mode="inline"
                         theme="dark"
                         >
@@ -102,7 +119,7 @@ export default class LeftNav extends Component {
                         </SubMenu> */}
                         
                         {
-                            this.getMenuNodes(menuList)
+                            this.menuNodes
                         }
 
                     </Menu>
@@ -111,3 +128,5 @@ export default class LeftNav extends Component {
         );
     }
 }
+
+export default withRouter(LeftNav);
