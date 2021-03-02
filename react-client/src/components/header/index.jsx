@@ -1,8 +1,11 @@
 import React, {Component} from 'react';
 import { withRouter } from 'react-router-dom';
+import { Modal, Button } from 'antd';
+import { ExclamationCircleOutlined, LogoutOutlined } from '@ant-design/icons';
 import './index.less';
 import { formatDate } from '../../utils/dateUtils';
 import memoryUtils from '../../utils/memoryUtils';
+import storageUtils from '../../utils/storageUtils';
 import menuList from '../../config/menuConfig';
 class Header extends Component {
 
@@ -11,7 +14,7 @@ class Header extends Component {
     }
 
     getTime = () => {
-        setInterval(() => {
+        this.intervalId = setInterval(() => {
             const currentTime = formatDate(Date.now());
             this.setState({currentTime});
         }, 1000);
@@ -39,6 +42,26 @@ class Header extends Component {
         this.getTime();
     }
 
+    // Called before the current component is unloaded
+    componentWillUnmount () {
+        // Clear Timer
+        clearInterval(this.intervalId);
+    }
+
+    // Logout the current account
+    logout = () => {
+        Modal.confirm({
+            title: 'Do you want to logout?',
+            icon: <ExclamationCircleOutlined />,
+            onOk: () => {
+                // Remove the stored data of user
+                storageUtils.removeUser();
+                memoryUtils.user = {};
+                this.props.history.replace('/login');
+            }
+        });
+    }   
+
     render () {
 
         const {currentTime} = this.state;
@@ -51,7 +74,7 @@ class Header extends Component {
             <div className="header">
                 <div className="header-top">
                     <span>Welcome, {username}</span>
-                    <a href="javascript:">Logout</a>
+                    <Button className="header-top-button" onClick={this.logout} icon={<LogoutOutlined />} type="link">Logout</Button>
                 </div>
                 <div className="header-bottom">
                     <div className="header-bottom-left">{title}</div>

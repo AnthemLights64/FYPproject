@@ -23,7 +23,7 @@ const Login = () => {
     // "values" includes an array of all form data
     const onFinish = values => {
         
-        console.log('Received values of form: ',values);
+        // console.log('Received values of form: ',values);
         form.validateFields()
             .then(async values => {
                 //console.log(values);
