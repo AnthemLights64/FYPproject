@@ -64,7 +64,7 @@ class LeftNav extends Component {
     }
 
     // Execute only once before the first render()
-    UnsafecomponentWillMount () {
+    UNSAFE_componentWillMount () {
         this.menuNodes = this.getMenuNodes(menuList);
     }
 
