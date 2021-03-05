@@ -2,19 +2,18 @@ import React, {Component} from 'react';
 import { Card, Input, Button, Table, Space } from 'antd';
 import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
 
+import {reqMembers} from '../../api';
+import {PAGE_SIZE} from '../../utils/constants';
+
 export default class MembersList extends Component {
 
     state = {
-        members: [
-            {
-                name: "Yuanhao Li",
-                nickname: "Xiaohu",
-                position: "Player",
-                _id: "1r318fhsafh9qfh9ahf9q1h9fiasf",
-            }
-        ],
+        total: 0, // Number of members
+        members: [],
+        loading: false
     }
 
+    // Initialize the array of the table columns
     initColumns = () => {
         this.columns = [
             {
@@ -45,18 +44,36 @@ export default class MembersList extends Component {
           ];
     }
 
+    // Get the list of specified page number
+    getMembers = async (pageNum) => {
+        this.setState({loading: true});
+        const result = await reqMembers(pageNum, PAGE_SIZE);
+        this.setState({loading: false});
+        if (result.state===0) {
+            const {total, list} = result.data;
+            this.setState({
+                total,
+                members: list
+            });
+        }
+    }
+
     UNSAFE_componentWillMount () {
         this.initColumns();
     }
 
+    componentDidMount () {
+        this.getMembers(1); // the 1st page
+    }
+
     render () {
 
-        const {members} = this.state;
+        const { members, total, loading } = this.state;
 
         const title = (
             <span>
-                <Input placeholder='keyword' style={{width: 100, marginRight: '10px'}} />
-                <Button type='primary' icon={<SearchOutlined />}>Search</Button>
+                <Input placeholder='keyword' prefix={<SearchOutlined />} style={{width: 100, marginRight: '10px'}} />
+                <Button type='primary'>Search</Button>
             </span>
         );
         
@@ -68,7 +85,19 @@ export default class MembersList extends Component {
 
         return (
             <Card title={title} extra={extra}>
-                <Table columns={this.columns} dataSource={members} rowKey='_id' bordered></Table>
+                <Table 
+                    columns={this.columns}
+                    dataSource={members}
+                    rowKey='_id'
+                    bordered
+                    pagination={{
+                        defaultPageSize: PAGE_SIZE, 
+                        showQuickJumper: true, 
+                        total,
+                        onChange: this.getMembers
+                    }}
+                    loading={loading}
+                ></Table>
             </Card>
         );
     }

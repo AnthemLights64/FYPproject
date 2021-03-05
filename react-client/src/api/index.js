@@ -15,3 +15,6 @@ export const reqLogin = (username, password) => ajax(BASE + '/login', {username,
 
 // add user
 export const reqAddUser = (user) => ajax(BASE + '/manage/user/add', user, 'POST');
+
+// Get members paging list
+export const reqMembers = (pageNum, pageSize) => ajax(BASE + '/management/member/list', {pageNum, pageSize});
