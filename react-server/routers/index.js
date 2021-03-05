@@ -7,6 +7,7 @@ const md5 = require('blueimp-md5');
 
 const UserModel = require('../models/UserModel');
 const RoleModel = require('../models/RoleModel');
+const MemberModel = require('../models/MemberModel');
 
 // Fetch the router object
 const router = express.Router();
@@ -155,5 +156,105 @@ function pageFilter(arr, pageNum, pageSize) {
         list
     }
 }
+
+// Add new member
+router.post('management/member/add', (req, res) => {
+    const member = req.body;
+    MemberModel.create(member)
+        .then(member => {
+            res.send({
+                status: 0,
+                data: member
+            });
+        })
+        .catch(error => {
+            console.error('Failed to add new member!', error);
+            res.send({
+                status: 1,
+                msg: 'Failed to add new member. Please try again.'
+            });
+        });
+});
+
+// Update a member
+router.post('/management/member/update', (req, res) => {
+    const member = req.body;
+    MemberModel.findOneAndUpdate({_id: member._id}, member)
+        .then(m => {
+            res.send({
+                status: 0
+            });
+        })
+        .catch(error => {
+            console.error('Failed to update member!', error);
+            res.send({
+                status: 1,
+                msg: 'Failed to update member. Please try again.'
+            });
+        });
+});
+
+// Detele a member
+router.delete('/management/member/delete', (req, res) => {
+    const member = req.body;
+    MemberModel.findOneAndDelete({_id: member._id}, member)
+        .then(member => {
+            res.send({
+                status: 0,
+                data: member
+            });
+        })
+        .catch(error => {
+            console.error('Failed to delete member!', error);
+            res.send({
+                status: 1,
+                msg: 'Failed to delete member. Please try again.'
+            });
+        });
+});
+
+// Get members paging lsit
+router.get('/management/member/list', (req, res) => {
+    const {pageNum, pageSize} = req.query;
+    MemberModel.find({})
+        .then(members => {
+            res.send({
+                status: 0,
+                data: pageFilter(members, pageNum, pageSize)
+            });
+        })
+        .catch(error => {
+            console.error('Failed to get members paging list!', error);
+            res.send({
+                status: 1,
+                msg: 'Failed to get members paging list. Please try again.'
+            });
+        });
+});
+
+// Search members list
+router.get('/management/member/search', (req, res) => {
+    const {pageNum, pageFilter, } = req.query;
+    let match = {};
+    //
+    //
+    // TO BE FINISHED
+    //
+    //
+    MemberModel.find(match)
+        .then(members => {
+            res.send({
+                status: 0,
+                data: pageFilter(members, pageNum, pageSize)
+            });
+        })
+        .catch(error => {
+            console.error('Failed to get the matching list!', error);
+            res.send({
+                status: 1,
+                msg: 'Failed to get the matching list. Please try again'
+            });
+        });
+});
 
 module.exports = router;
