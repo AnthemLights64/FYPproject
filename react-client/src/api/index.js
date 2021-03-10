@@ -20,7 +20,7 @@ export const reqAddUser = (user) => ajax(BASE + '/manage/user/add', user, 'POST'
 export const reqMembers = (pageNum, pageSize) => ajax(BASE + '/management/member/list', {pageNum, pageSize});
 
 // Search members paging list
-export const reqSearchMembers = ({pageNum, pageSize, searchName, searchType}) => ajax(BASE + '/management/members/search', {
+export const reqSearchMembers = ({pageNum, pageSize, searchName, searchType}) => ajax(BASE + '/management/member/search', {
     pageNum,
     pageSize,
     [searchType]: searchName,
