@@ -36,9 +36,9 @@ export default class MembersList extends Component {
               width: 200,
               align: 'center',
               title: 'Action',
-              render: () => (
+              render: (member) => (
                 <Space>
-                    <Button type='link'>Details</Button>
+                    <Button type='link' onClick={() => this.props.history.push('/management/member/details', {member})}>Details</Button>
                     <Button type='link'>Edit</Button>
                     <Button type='link'>Delete</Button>
                 </Space>

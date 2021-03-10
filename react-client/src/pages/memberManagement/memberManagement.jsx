@@ -5,6 +5,8 @@ import MembersList from './index';
 import Operations from './operations';
 import Details from './details';
 
+import './memberManagement.less';
+
 
 export default class MemberManagement extends Component {
     render () {
