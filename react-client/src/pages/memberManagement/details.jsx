@@ -8,7 +8,7 @@ const Item = List.Item;
 export default class Details extends Component {
     render () {
 
-        const {name, nickname, position, gender, dob, nationality, phone, address, photo} = this.props.location.state.member;
+        const {name, nickname, position, gender, dob, nationality, phone, address, photo, detail} = this.props.location.state.member;
 
         const title = (
             <span>
@@ -74,7 +74,7 @@ export default class Details extends Component {
                     </Item>
                     <Item>
                         <span className="left">Details:</span>
-                        <span dangerouslySetInnerHTML={{__html: '<h1 style="color: green">xxxxx</h1>'}}></span>
+                        <span dangerouslySetInnerHTML={{__html: detail}}></span>
                     </Item>
                 </List>
             </Card>

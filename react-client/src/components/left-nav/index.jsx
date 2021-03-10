@@ -48,7 +48,7 @@ class LeftNav extends Component {
                     </Menu.Item>
                 ));
             } else {
-                const cItem = item.children.find(i => i.route===path);
+                const cItem = item.children.find( cItem => path.indexOf(cItem.route)===0);
                 if (cItem) {
                     this.openKey = item.key
                 }
@@ -70,8 +70,11 @@ class LeftNav extends Component {
 
     render () {
 
-        const path = this.props.location.pathname;
+        let path = this.props.location.pathname;
         const openKey = this.openKey;
+        if (path.indexOf('member')===0) { // The current request is for a member or its subrouting interface
+            path = '/member';
+        }
 
         return (
                 <div className="left-nav">
