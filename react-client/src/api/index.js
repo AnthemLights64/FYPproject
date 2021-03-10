@@ -18,3 +18,10 @@ export const reqAddUser = (user) => ajax(BASE + '/manage/user/add', user, 'POST'
 
 // Get members paging list
 export const reqMembers = (pageNum, pageSize) => ajax(BASE + '/management/member/list', {pageNum, pageSize});
+
+// Search members paging list
+export const reqSearchMembers = ({pageNum, pageSize, searchName, searchType}) => ajax(BASE + '/management/members/search', {
+    pageNum,
+    pageSize,
+    [searchType]: searchName,
+});

@@ -234,13 +234,15 @@ router.get('/management/member/list', (req, res) => {
 
 // Search members list
 router.get('/management/member/search', (req, res) => {
-    const {pageNum, pageFilter, } = req.query;
+    const {pageNum, pageFilter, searchName, memberName, memberNickname, memberPosition } = req.query;
     let match = {};
-    //
-    //
-    // TO BE FINISHED
-    //
-    //
+    if (memberName) {
+        match = {name: new RegExp(`^.*${memberName}.*$`)};
+    } else if (memberNickname) {
+        match = {nickname: new RegExp(`^.*${memberNickname}.*$`)};
+    } else if (memberPosition) {
+        match = {position: new RegExp(`^.*${memberPosition}.*$`)};
+    }
     MemberModel.find(match)
         .then(members => {
             res.send({

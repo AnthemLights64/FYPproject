@@ -1,16 +1,19 @@
 import React, {Component} from 'react';
-import { Card, Input, Button, Table, Space } from 'antd';
+import { Card, Input, Button, Table, Space, Select } from 'antd';
 import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
 
-import {reqMembers} from '../../api';
+import {reqMembers, reqSearchMembers} from '../../api';
 import {PAGE_SIZE} from '../../utils/constants';
 
+const Option = Select.Option;
 export default class MembersList extends Component {
 
     state = {
         total: 0, // Number of members
         members: [],
-        loading: false
+        loading: false,
+        searchName: '',
+        searchType: 'memberName',
     }
 
     // Initialize the array of the table columns
@@ -47,7 +50,13 @@ export default class MembersList extends Component {
     // Get the list of specified page number
     getMembers = async (pageNum) => {
         this.setState({loading: true});
-        const result = await reqMembers(pageNum, PAGE_SIZE);
+        const {searchName, searchType} = this.state;
+        let result;
+        if (searchName) {
+            result = await reqSearchMembers({pageNum, pageSize: PAGE_SIZE, searchName, searchType});
+        } else {
+            result = await reqMembers(pageNum, PAGE_SIZE);
+        }
         this.setState({loading: false});
         if (result.state===0) {
             const {total, list} = result.data;
@@ -68,12 +77,27 @@ export default class MembersList extends Component {
 
     render () {
 
-        const { members, total, loading } = this.state;
+        const { members, total, loading, searchName, searchType } = this.state;
 
         const title = (
             <span>
-                <Input placeholder='keyword' prefix={<SearchOutlined />} style={{width: 100, marginRight: '10px'}} />
-                <Button type='primary'>Search</Button>
+                <Select 
+                value={searchType} 
+                style={{width: 200}} 
+                onChange={value => this.setState({searchType:value})}
+                >
+                    <Option value='memberName'>Search by Name</Option>
+                    <Option value='memberNickname'>Search by Nickname</Option>
+                    <Option value='memberPosition'>Search by Postion</Option>
+                </Select>
+                <Input 
+                placeholder='keyword' 
+                prefix={<SearchOutlined />} 
+                style={{width: 100, margin: '0 10px'}} 
+                value={searchName}
+                onChange={event => this.setState({searchName:event.target.value})}
+                />
+                <Button type='primary' onClick={() => this.getMembers(1)}>Search</Button>
             </span>
         );
         
