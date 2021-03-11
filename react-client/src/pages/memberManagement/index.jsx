@@ -102,7 +102,7 @@ export default class MembersList extends Component {
         );
         
         const extra = (
-            <Button type='primary' icon={<PlusOutlined />}>
+            <Button type='primary' icon={<PlusOutlined />} onClick={() => this.props.history.push('/management/member/operations')}>
                 New Member
             </Button>
         );
