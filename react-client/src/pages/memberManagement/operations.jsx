@@ -1,6 +1,8 @@
 import React from 'react';
-import { Card, Form, Input, Upload, Button, Radio, DatePicker } from 'antd';
+import { Card, Form, Input, Button, Radio, DatePicker } from 'antd';
+import PicturesWall from './picturesWall';
 import {ArrowLeftOutlined} from '@ant-design/icons';
+import {useHistory} from 'react-router-dom';
 
 const {Item} = Form;
 const Operations = () => {
@@ -11,6 +13,7 @@ const Operations = () => {
         wrapperCol: { span: 8 }
     }
 
+    let history = useHistory();
     const [form] = Form.useForm();
 
     const onFinish = values => {
@@ -28,7 +31,7 @@ const Operations = () => {
             <Button 
             type='link' 
             icon={<ArrowLeftOutlined style={{color: '#B49169', marginRight: 5, fontSize: 20}}/>}
-            onClick={() => this.props.history.goBack()}
+            onClick={() => history.goBack()}
             >
             </Button>
             <span>Add New Member</span>
@@ -61,6 +64,9 @@ const Operations = () => {
                 </Item>
                 <Item label="Phone No." name='phonenumber'>
                     <Input placeholder='Please input the phone number'/>
+                </Item>
+                <Item label="Photo">
+                    <PicturesWall />
                 </Item>
                 <Item>
                     <Button type='primary' htmlType='submit'>Submit</Button>
