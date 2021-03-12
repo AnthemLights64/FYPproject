@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Card, Form, Input, Button, Radio, DatePicker } from 'antd';
 import PicturesWall from './picturesWall';
 import {ArrowLeftOutlined} from '@ant-design/icons';
@@ -22,13 +22,19 @@ const Operations = () => {
         console.log('radio checked', e.target.value);
         setValue(e.target.value);
       };
-
+    
+    const pw = useRef();
+    if(!pw.current){
+        pw.current = value;
+      }
+        
     const onFinish = values => {
         form.validateFields()
             .then(values => {
-               
+               const imgs = pw.current.getImages();
+               console.log("imgs", imgs)
             })
-            .catch(errorInfo => {
+            .catch(errorInfo => {  
                 console.log(errorInfo);
             });
     }
@@ -73,7 +79,7 @@ const Operations = () => {
                     <Input placeholder='Please input the phone number'/>
                 </Item>
                 <Item label="Photo">
-                    <PicturesWall />
+                    <PicturesWall ref={pw} />
                 </Item>
                 <Item>
                     <Button type='primary' htmlType='submit'>Submit</Button>

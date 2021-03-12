@@ -12,12 +12,18 @@ function getBase64(file) {
 }
 
 export default class PicturesWall extends React.Component {
+
   state = {
     previewVisible: false,
     previewImage: '',
     previewTitle: '',
     fileList: [],
   };
+
+  // Get the array of names of all the uploaded images
+  getImages = () => {
+    return this.state.fileList.map(file => file.name);
+  }
 
   handleCancel = () => this.setState({ previewVisible: false });
 
