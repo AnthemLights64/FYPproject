@@ -28,7 +28,7 @@ const uploadOne = upload.single('image');
 
 module.exports = function fileUpload(router) {
     // Upload an image
-    router.post('management/image/upload', (req, res) => {
+    router.post('/management/member/image/upload', (req, res) => {
         uploadOne(req, res, function (error) {
             if (error) {
                 return res.send({
@@ -41,14 +41,14 @@ module.exports = function fileUpload(router) {
                 status: 0,
                 data: {
                     name: file.filename,
-                    url: '#/upload/' + filename.filename
+                    url: 'http://localhost:5000/upload/' + file.filename
                 }
             });
         });
     });
 
     // Delete an image
-    router.post('/management/image/delete', (req, res) => {
+    router.post('/management/member/image/delete', (req, res) => {
         const {name} = req.body;
         fs.unlink(path.join(dirPath, name), (err) => {
             if (err) {

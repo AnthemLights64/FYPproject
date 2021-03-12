@@ -1,5 +1,5 @@
 import React from 'react';
-import { Upload, Modal } from 'antd';
+import { Upload, Modal, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 
 function getBase64(file) {
@@ -16,26 +16,7 @@ export default class PicturesWall extends React.Component {
     previewVisible: false,
     previewImage: '',
     previewTitle: '',
-    fileList: [
-      {
-        uid: '-1',
-        name: 'image.png',
-        status: 'done',
-        url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-      },
-      {
-        uid: '-xxx',
-        percent: 50,
-        name: 'image.png',
-        status: 'uploading',
-        url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-      },
-      {
-        uid: '-5',
-        name: 'image.png',
-        status: 'error',
-      },
-    ],
+    fileList: [],
   };
 
   handleCancel = () => this.setState({ previewVisible: false });
@@ -54,7 +35,22 @@ export default class PicturesWall extends React.Component {
 
   // file: Image files for the current operation
   // fileList: An array of all uploaded image file objects
-  handleChange = ({ file, fileList }) => this.setState({ fileList });
+  handleChange = ({ file, fileList }) => {
+    if (file.status==='done') {
+      const result = file.response;
+      if (result.status===0) {
+        message.success("Successfully uploaded the image!");
+        const {name, url} = result.data;
+        file = fileList[fileList.length-1];
+        file.name = name;
+        file.url = url;
+      } else {
+        message.error("Failed to upload image.");
+      }
+    }
+
+    this.setState({ fileList });
+  };
 
   render() {
     const { previewVisible, previewImage, fileList, previewTitle } = this.state;
@@ -67,7 +63,7 @@ export default class PicturesWall extends React.Component {
     return (
       <>
         <Upload
-          action="/management/image/upload" // The address of the uploaded images
+          action="/management/member/image/upload" // The address of the uploaded images
           accept="image/*" // Only accept image files
           name="image" // Parameter name of request
           listType="picture-card"

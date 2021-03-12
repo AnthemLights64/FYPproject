@@ -15,6 +15,13 @@ const Operations = () => {
 
     let history = useHistory();
     const [form] = Form.useForm();
+    
+    // eslint-disable-next-line no-unused-vars
+    const [value, setValue] = React.useState(1);
+    const onChange = e => {
+        console.log('radio checked', e.target.value);
+        setValue(e.target.value);
+      };
 
     const onFinish = values => {
         form.validateFields()
@@ -40,7 +47,7 @@ const Operations = () => {
     
     return (
         <Card title={title}>
-            <Form {...formItemLayout} onFinish={onFinish} form={form}>
+            <Form {...formItemLayout} onFinish={onFinish} form={form} initialValues={{"gender": 1}}>
                 <Item label="Name" name='name' rules={[{required: true, message: 'Name must be entered!'}]}>
                     <Input placeholder='Please input the name'/>
                 </Item>
@@ -51,7 +58,7 @@ const Operations = () => {
                     <Input placeholder='Please input the position'/>
                 </Item>
                 <Item label="Gender" name='gender'>
-                    <Radio.Group name="radiogroup" defaultValue={1}>
+                    <Radio.Group name="radiogroup" onChange={onChange} value={value}>
                         <Radio value={1}>Male</Radio>
                         <Radio value={2}>Female</Radio>
                     </Radio.Group>

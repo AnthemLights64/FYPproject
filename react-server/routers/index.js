@@ -259,4 +259,6 @@ router.get('/management/member/search', (req, res) => {
         });
 });
 
+require('./file-upload')(router);
+
 module.exports = router;
