@@ -25,3 +25,5 @@ export const reqSearchMembers = ({pageNum, pageSize, searchName, searchType}) =>
     pageSize,
     [searchType]: searchName,
 });
+
+export const reqDeleteImg = (name) => ajax(BASE + '/management/member/image/delete', {name}, 'POST');

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Upload, Modal, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
+import {reqDeleteImg} from '../../api'
 
 function getBase64(file) {
   return new Promise((resolve, reject) => {
@@ -41,7 +42,7 @@ export default class PicturesWall extends React.Component {
 
   // file: Image files for the current operation
   // fileList: An array of all uploaded image file objects
-  handleChange = ({ file, fileList }) => {
+  handleChange = async ({ file, fileList }) => {
     if (file.status==='done') {
       const result = file.response;
       if (result.status===0) {
@@ -52,6 +53,13 @@ export default class PicturesWall extends React.Component {
         file.url = url;
       } else {
         message.error("Failed to upload image.");
+      }
+    } else if (file.status==='removed') {
+      const result = await reqDeleteImg(file.name);
+      if (result.data.status===0) {
+        message.success("Successfully deleted the image!");
+      } else {
+        message.error("Failed to detele the image.");
       }
     }
 
