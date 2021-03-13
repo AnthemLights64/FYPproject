@@ -10,7 +10,19 @@ export default class MembersList extends Component {
 
     state = {
         total: 0, // Number of members
-        members: [],
+        members: [
+            // {
+            //     name: 'Yuanhao Li',
+            //     nickname: 'Xiaohu',
+            //     position: 'Player',
+            //     gender: 'Male',
+            //     dob: '1998-01-28',
+            //     nationality: 'China',
+            //     phone: '',
+            //     address: 'Shanghai',
+            //     _id: "safff1f11f1f1"
+            // }
+        ],
         loading: false,
         searchName: '',
         searchType: 'memberName',
@@ -39,7 +51,7 @@ export default class MembersList extends Component {
               render: (member) => (
                 <Space>
                     <Button type='link' onClick={() => this.props.history.push('/management/member/details', {member})}>Details</Button>
-                    <Button type='link'>Edit</Button>
+                    <Button type='link' onClick={() => member ? this.props.history.push('/management/member/operations?member=' + JSON.stringify(member)) : this.props.history.push('/management/member/operations')}>Edit</Button>
                     <Button type='link'>Delete</Button>
                 </Space>
               ),

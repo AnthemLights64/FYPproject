@@ -8,7 +8,7 @@ const Item = List.Item;
 export default class Details extends Component {
     render () {
 
-        const {name, nickname, position, gender, dob, nationality, phone, address, photo, detail} = this.props.location.state.member;
+        const {name, nickname, position, gender, dob, nationality, phone, address, photo=[], detail} = this.props.location.state.member;
 
         const title = (
             <span>
