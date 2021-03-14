@@ -20,6 +20,7 @@ export default class MembersList extends Component {
             //     nationality: 'China',
             //     phone: '',
             //     address: 'Shanghai',
+            //     photo: ["image-1615697506989.jpg"],
             //     _id: "safff1f11f1f1"
             // }
         ],

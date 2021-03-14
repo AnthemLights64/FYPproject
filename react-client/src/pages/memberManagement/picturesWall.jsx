@@ -2,6 +2,8 @@ import React from 'react';
 import { Upload, Modal, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import {reqDeleteImg} from '../../api'
+import PropTypes from 'prop-types';
+import { BASE_IMAGE_URL } from '../../utils/constants';
 
 function getBase64(file) {
   return new Promise((resolve, reject) => {
@@ -14,12 +16,39 @@ function getBase64(file) {
 
 export default class PicturesWall extends React.Component {
 
+  static propTypes = {
+    photo: PropTypes.array
+  }
+
   state = {
     previewVisible: false,
     previewImage: '',
     previewTitle: '',
     fileList: [],
   };
+
+  constructor (props) {
+    super(props);
+
+    let fileList = [];
+
+    // If the photo attribute is passed in
+    const {photo} = this.props;
+    if (photo && photo.length>0) {
+      fileList = photo.map((img, index) => ({
+        uid: -index,
+        name: img,
+        status: 'done',
+        url: BASE_IMAGE_URL + img
+      }));
+    }
+
+    this.state = {
+      previewVisible: false,
+      previewImage: '',
+      fileList
+    }
+  }
 
   // Get the array of names of all the uploaded images
   getImages = () => {

@@ -50,6 +50,7 @@ const Operations = () => {
     } else {
         member = {};
     }
+    const {photo} = member;
     
 
     const title = (
@@ -95,7 +96,7 @@ const Operations = () => {
                     <Input placeholder='Please input the address'/>
                 </Item>
                 <Item label="Photo" >
-                    <PicturesWall ref={pw} />
+                    <PicturesWall ref={pw} photo={photo} />
                 </Item>
                 <Item>
                     <Button type='primary' htmlType='submit'>Submit</Button>
