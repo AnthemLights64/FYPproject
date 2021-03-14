@@ -10,6 +10,8 @@ const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
 
+mongoose.set('useFindAndModify', false);
+
 // Declare the use of static middleware
 app.use(express.static('public'));
 // Declare the use of middleware that parses post requests
