@@ -5,6 +5,7 @@ import {ArrowLeftOutlined} from '@ant-design/icons';
 import {useHistory} from 'react-router-dom';
 import getQuery from '../../utils/urlUtils';
 import moment from 'moment';
+import RichTextEditor from './rich-text-editor';
 
 const {Item} = Form;
 const Operations = () => {
@@ -28,13 +29,19 @@ const Operations = () => {
     const pw = useRef();
     if(!pw.current){
         pw.current = value;
-      }
+    }
+
+    const editor = useRef();
+    if (!editor.current) {
+        editor.current = value;
+    }
         
     const onFinish = values => {
         form.validateFields()
             .then(values => {
                const imgs = pw.current.getImages();
-               console.log("imgs", imgs)
+               const details = editor.current.getDetails();
+               console.log("imgs and details", imgs, details)
             })
             .catch(errorInfo => {  
                 console.log(errorInfo);
@@ -51,6 +58,7 @@ const Operations = () => {
         member = {};
     }
     const {photo} = member;
+    const {details} = member;
     
 
     const title = (
@@ -97,6 +105,9 @@ const Operations = () => {
                 </Item>
                 <Item label="Photo" >
                     <PicturesWall ref={pw} photo={photo} />
+                </Item>
+                <Item label="Details" labelCol={{span: 3}} wrapperCol={{span:20}}>
+                    <RichTextEditor ref={editor} details={details} />
                 </Item>
                 <Item>
                     <Button type='primary' htmlType='submit'>Submit</Button>
