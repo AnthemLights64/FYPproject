@@ -1,11 +1,12 @@
 import React, { useRef } from 'react';
-import { Card, Form, Input, Button, Radio, DatePicker } from 'antd';
+import { Card, Form, Input, Button, Radio, DatePicker, message } from 'antd';
 import PicturesWall from './picturesWall';
 import {ArrowLeftOutlined} from '@ant-design/icons';
 import {useHistory} from 'react-router-dom';
 import getQuery from '../../utils/urlUtils';
 import moment from 'moment';
 import RichTextEditor from './rich-text-editor';
+import {reqAddOrUpdateMember} from '../../api';
 
 const {Item} = Form;
 const Operations = () => {
@@ -35,31 +36,60 @@ const Operations = () => {
     if (!editor.current) {
         editor.current = value;
     }
-        
-    const onFinish = values => {
-        form.validateFields()
-            .then(values => {
-               const imgs = pw.current.getImages();
-               const details = editor.current.getDetails();
-               console.log("imgs and details", imgs, details)
-            })
-            .catch(errorInfo => {  
-                console.log(errorInfo);
-            });
-    }
-
-
+    
     const member_ = getQuery('member');
     const isUpdate = !!member_;
     let member;
+    let _id;
     if (isUpdate) {
         member = JSON.parse(member_);
+        _id = member._id;
     } else {
         member = {};
     }
     const {photo} = member;
     const {details} = member;
-    
+
+    const onFinish = values => {
+        form.validateFields()
+            .then(async values => {
+
+                //console.log(values)
+                // 1. Collect data and encapsulate it into a member object
+                const {name, nickname, position, gender, moment_dob, nationality, phone, address} = values;
+                const dob = moment(moment_dob).format('YYYY-MM-DD');
+                //console.log(gender)
+                //console.log(dob)
+
+                const photo = pw.current.getImages();
+                const details = editor.current.getDetails();
+                const member = {name, nickname, position, gender, dob, nationality, phone, address, photo, details}
+                //console.log(member)
+                //console.log(isUpdate)
+
+                // If it's update, it needs to add the _id
+                if (isUpdate) {
+                    member._id = _id;
+                }
+
+                // 2. Invoke the interface request function to add/update
+                const result = await reqAddOrUpdateMember(member);
+                //console.log(result.status)
+
+                // 3. Give a hint based on the result
+                if (result.data.status===0) {
+                    message.success(`Successfully ${isUpdate ? 'updated' : 'added'} the member!`);
+                    history.goBack();
+                } else {
+                    message.error(`Failed to ${isUpdate ? 'update' : 'add'} the member.`);
+                }
+
+               //console.log("photos and details", photo, details)
+            })
+            .catch(errorInfo => {  
+                console.log(errorInfo);
+            });
+    }
 
     const title = (
         <span>

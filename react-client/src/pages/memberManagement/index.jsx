@@ -67,12 +67,21 @@ export default class MembersList extends Component {
         let result;
         if (searchName) {
             result = await reqSearchMembers({pageNum, pageSize: PAGE_SIZE, searchName, searchType});
+            // console.log(searchName)
+            // console.log(searchType)
+            // console.log(searchType==='memberName')
+            // console.log(result)
         } else {
             result = await reqMembers(pageNum, PAGE_SIZE);
+            //console.log(result)
         }
         this.setState({loading: false});
-        if (result.state===0) {
-            const {total, list} = result.data;
+        //console.log(result.status)
+        //console.log(result.data)
+        //console.log(result.data.data)
+        //console.log(result.data.data.list)  
+        if (result.data.status===0) {
+            const {total, list} = result.data.data;
             this.setState({
                 total,
                 members: list

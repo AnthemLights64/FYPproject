@@ -158,7 +158,7 @@ function pageFilter(arr, pageNum, pageSize) {
 }
 
 // Add new member
-router.post('management/member/add', (req, res) => {
+router.post('/management/member/add', (req, res) => {
     const member = req.body;
     MemberModel.create(member)
         .then(member => {
@@ -234,14 +234,14 @@ router.get('/management/member/list', (req, res) => {
 
 // Search members list
 router.get('/management/member/search', (req, res) => {
-    const {pageNum, pageFilter, searchName, memberName, memberNickname, memberPosition } = req.query;
+    const {pageNum, pageSize, searchName, searchType } = req.query;
     let match = {};
-    if (memberName) {
-        match = {name: new RegExp(`^.*${memberName}.*$`)};
-    } else if (memberNickname) {
-        match = {nickname: new RegExp(`^.*${memberNickname}.*$`)};
-    } else if (memberPosition) {
-        match = {position: new RegExp(`^.*${memberPosition}.*$`)};
+    if (searchType==='memberName') {
+        match = {name: new RegExp(`^.*${searchName}.*$`)};
+    } else if (searchType==='memberNickname') {
+        match = {nickname: new RegExp(`^.*${searchName}.*$`)};
+    } else if (searchType==='memberPosition') {
+        match = {position: new RegExp(`^.*${searchName}.*$`)};
     }
     MemberModel.find(match)
         .then(members => {
@@ -254,6 +254,8 @@ router.get('/management/member/search', (req, res) => {
             console.error('Failed to get the matching list!', error);
             res.send({
                 status: 1,
+                a: searchName,
+                b: searchType,
                 msg: 'Failed to get the matching list. Please try again'
             });
         });

@@ -23,7 +23,12 @@ export const reqMembers = (pageNum, pageSize) => ajax(BASE + '/management/member
 export const reqSearchMembers = ({pageNum, pageSize, searchName, searchType}) => ajax(BASE + '/management/member/search', {
     pageNum,
     pageSize,
-    [searchType]: searchName,
+    searchName,
+    searchType
 });
 
+// Delete the specified image
 export const reqDeleteImg = (name) => ajax(BASE + '/management/member/image/delete', {name}, 'POST');
+
+// Add/Update Member
+export const reqAddOrUpdateMember = (member) => ajax(BASE + '/management/member/' + (member._id ? 'update' : 'add'), member, 'POST');
