@@ -49,15 +49,17 @@ const Operations = () => {
     }
     const {photo} = member;
     const {details} = member;
-
+    
     const onFinish = values => {
         form.validateFields()
             .then(async values => {
 
                 //console.log(values)
                 // 1. Collect data and encapsulate it into a member object
-                const {name, nickname, position, gender, moment_dob, nationality, phone, address} = values;
-                const dob = moment(moment_dob).format('YYYY-MM-DD');
+                const {name, nickname, position, gender, nationality, phone, address} = values;
+                let {dob} = values;
+                dob = moment(dob).format('YYYY-MM-DD');
+                //const dob = moment(moment_dob).format('YYYY-MM-DD');
                 //console.log(gender)
                 //console.log(dob)
 
@@ -127,7 +129,7 @@ const Operations = () => {
                 <Item label="Nationality" initialValue={member.nationality} name='nationality'>
                     <Input placeholder='Please input the nationality'/>
                 </Item>
-                <Item label="Phone No." initialValue={member.phone} name='phonenumber'>
+                <Item label="Phone No." initialValue={member.phone} name='phone'>
                     <Input placeholder='Please input the phone number'/>
                 </Item>
                 <Item label="Address" initialValue={member.address} name='address'>
