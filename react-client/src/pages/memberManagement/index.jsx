@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Card, Input, Button, Table, Space, Select } from 'antd';
+import { Card, Input, Button, Table, Space, Select, Popconfirm, message } from 'antd';
 import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
 
 import {reqDeleteMember, reqMembers, reqSearchMembers} from '../../api';
@@ -53,12 +53,33 @@ export default class MembersList extends Component {
                 <Space>
                     <Button type='link' onClick={() => this.props.history.push('/management/member/details', {member})}>Details</Button>
                     <Button type='link' onClick={() => member ? this.props.history.push('/management/member/operations?member=' + JSON.stringify(member)) : this.props.history.push('/management/member/operations')}>Edit</Button>
-                    <Button type='link' style={{color: "red"}} onClick={() => {
-                        //console.log(member)
-                        //console.log(member._id)
-                        reqDeleteMember(member)
-                        this.getMembers(1)
-                    }}>Delete</Button>
+                    <Popconfirm
+                        title="Are you sure to delete this member?"
+                        onConfirm={async() => {
+                            const result = await reqDeleteMember(member);
+                            if (result.data.status===0) {
+                                message.success('Successfully deleted the member!');
+                            } else {
+                                message.error('Failed to delete the member.');
+                            }
+                            this.getMembers(1);
+                        }}
+                        okText="Yes"
+                        cancelText="No"
+                    >
+                        <Button 
+                            type='link' 
+                            style={{color: "red"}} 
+                            // onClick={() => {
+                            //     //console.log(member)
+                            //     //console.log(member._id)
+                            //     reqDeleteMember(member)
+                            //     this.getMembers(1)
+                            // }}
+                        >
+                            Delete
+                        </Button>
+                    </Popconfirm>
                 </Space>
               ),
             },
