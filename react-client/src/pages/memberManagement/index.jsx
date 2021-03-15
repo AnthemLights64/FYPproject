@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { Card, Input, Button, Table, Space, Select } from 'antd';
 import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
 
-import {reqMembers, reqSearchMembers} from '../../api';
+import {reqDeleteMember, reqMembers, reqSearchMembers} from '../../api';
 import {PAGE_SIZE} from '../../utils/constants';
 
 const Option = Select.Option;
@@ -53,7 +53,12 @@ export default class MembersList extends Component {
                 <Space>
                     <Button type='link' onClick={() => this.props.history.push('/management/member/details', {member})}>Details</Button>
                     <Button type='link' onClick={() => member ? this.props.history.push('/management/member/operations?member=' + JSON.stringify(member)) : this.props.history.push('/management/member/operations')}>Edit</Button>
-                    <Button type='link'>Delete</Button>
+                    <Button type='link' style={{color: "red"}} onClick={() => {
+                        //console.log(member)
+                        //console.log(member._id)
+                        reqDeleteMember(member)
+                        this.getMembers(1)
+                    }}>Delete</Button>
                 </Space>
               ),
             },

@@ -15,6 +15,8 @@ const router = express.Router();
 // Specify the attributes to be filtered
 const filter = { password: 0, __v: 0 }
 
+var ObjectId = require('mongodb').ObjectId;
+
 // Login
 router.post('/login', (req, res) => {
 const {username, password} = req.body;
@@ -179,7 +181,7 @@ router.post('/management/member/add', (req, res) => {
 // Update a member
 router.post('/management/member/update', (req, res) => {
     const member = req.body;
-    MemberModel.findOneAndUpdate({_id: member._id}, member)
+    MemberModel.findOneAndUpdate({_id: ObjectId(member._id)}, member)
         .then(m => {
             res.send({
                 status: 0
@@ -195,13 +197,14 @@ router.post('/management/member/update', (req, res) => {
 });
 
 // Detele a member
-router.delete('/management/member/delete', (req, res) => {
+router.post('/management/member/delete', (req, res) => {
     const member = req.body;
-    MemberModel.findOneAndDelete({_id: member._id}, member)
+    //console.log(member._id)
+    MemberModel.findOneAndDelete({_id: ObjectId(member._id)}, member)
         .then(member => {
             res.send({
                 status: 0,
-                data: member
+                data: member,
             });
         })
         .catch(error => {

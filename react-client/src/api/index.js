@@ -32,3 +32,6 @@ export const reqDeleteImg = (name) => ajax(BASE + '/management/member/image/dele
 
 // Add/Update Member
 export const reqAddOrUpdateMember = (member) => ajax(BASE + '/management/member/' + (member._id ? 'update' : 'add'), member, 'POST');
+
+// Delete member
+export const reqDeleteMember = (member) => ajax(BASE + '/management/member/delete', member, 'POST');
