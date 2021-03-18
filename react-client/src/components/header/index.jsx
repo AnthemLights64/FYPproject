@@ -27,7 +27,7 @@ class Header extends Component {
             if (item.route===path) {
                 title = item.title;
             } else if (item.children) {
-                const cItem = item.children.find(cItem => cItem.route===path);
+                const cItem = item.children.find(cItem => path.indexOf(cItem.route)===0);
                 if (cItem) {
                     title = cItem.title
                 }
