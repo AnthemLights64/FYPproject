@@ -41,3 +41,6 @@ export const reqRoles = () => ajax(BASE + '/management/role/list');
 
 // Add new role
 export const reqAddRole = (roleName) => ajax(BASE + '/management/role/add', {roleName}, 'POST');
+
+// Set role permissions
+export const reqSetRolePermissions = (role) => ajax('/management/role/update', role, 'POST');

@@ -14,15 +14,32 @@ export default class Auth extends Component {
         role: PropTypes.object
     }
 
+    // Generate the initial state according to the role passed in
+    constructor (props) {
+        super(props);
+        const {menus} = this.props.role;
+        this.state = {
+            checkedKeys: menus
+        }
+    }
+
+    // Provide a function for parent component to get the latest [menus]
+    getMenus = () => this.state.checkedKeys;
+
     getTreeNodes = (menuList) => {
         return menuList.reduce((pre, item) => {
             pre.push(
-                <TreeNode title={item.title} key={item.key}>
+                <TreeNode title={item.title} key={item.route}>
                     {item.children ? this.getTreeNodes(item.children) : null}
                 </TreeNode>
             );
             return pre;
         }, []);
+    }
+
+    onCheck = checkedKeys => {
+        console.log('onCheck', checkedKeys);
+        this.setState({checkedKeys});
     }
 
     UNSAFE_componentWillMount () {
@@ -32,6 +49,7 @@ export default class Auth extends Component {
     render() {
 
         const {role} = this.props;
+        const {checkedKeys} = this.state;
 
         const formItemLayout = {
         labelCol: { span: 4 },  
@@ -46,6 +64,8 @@ export default class Auth extends Component {
                 <Tree
                     checkable
                     defaultExpandAll={true}
+                    checkedKeys={checkedKeys}
+                    onCheck={this.onCheck}
                 >
                     <TreeNode title='System Permissions' key='0-0'>
                         {this.treeNodes}

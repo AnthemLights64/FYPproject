@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { Card, Button, Table, Modal, message } from 'antd';
 import {PAGE_SIZE} from '../../utils/constants';
-import { reqRoles, reqAddRole } from '../../api';
+import { reqRoles, reqAddRole, reqSetRolePermissions} from '../../api';
 import AddForm from './add-form';
 import AuthForm from './auth-form';
 
@@ -12,6 +12,11 @@ export default class RoleManagement extends Component {
         role: {}, // The selected role
         isShownAdd: false, // Display the adding interface or not
         isShownAuth: false, //Display the permission setting interface or not
+    }
+
+    constructor (props) {
+        super(props);
+        this.auth = React.createRef();
     }
 
     initColumn = () => {
@@ -48,7 +53,7 @@ export default class RoleManagement extends Component {
     onRow = (role) => {
         return {
             onClick: event => {
-                console.log('row onClick', role)
+                //console.log('row onClick', role)
                 this.setState({
                     role
                 });
@@ -94,8 +99,25 @@ export default class RoleManagement extends Component {
 
     }
 
-    setRolePermissons = () => {
+    setRolePermissons = async () => {
 
+        this.setState({
+            isShownAuth: false
+        });
+
+        const role = this.state.role;
+        const menus = this.auth.current.getMenus();
+        role.menus = menus;
+        const result = await reqSetRolePermissions(role);
+        if (result.data.status===0) {
+            message.success('Successfully set the role permissions!');
+            //this.getRoles();
+            this.setState({
+                role: [...this.state.roles]
+            });
+        } else {
+            message.error('Failed to set the role permissions.');
+        }
     }
 
     UNSAFE_componentWillMount () {
@@ -161,6 +183,7 @@ export default class RoleManagement extends Component {
                 >
                     <AuthForm
                         role={role}
+                        ref={this.auth}
                     />
                 </Modal>  
 
