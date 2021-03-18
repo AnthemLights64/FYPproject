@@ -1,13 +1,15 @@
 import React, {Component} from 'react';
-import {Card, Button, Table} from 'antd';
+import { Card, Button, Table, Modal } from 'antd';
 import {PAGE_SIZE} from '../../utils/constants';
 import { reqRoles } from '../../api';
+import AddForm from './add-form';
 
 export default class RoleManagement extends Component {
 
     state = {
         roles: [], // The list of all roles
         role: {}, // The selected role
+        isShownAdd: false, // Display the adding interface or not
     }
 
     initColumn = () => {
@@ -52,6 +54,10 @@ export default class RoleManagement extends Component {
         }
     }
 
+    addRole = () => {
+
+    }
+
     UNSAFE_componentWillMount () {
         this.initColumn();
     }
@@ -62,11 +68,11 @@ export default class RoleManagement extends Component {
 
     render () {
 
-        const {roles, role} = this.state;
+        const {roles, role, isShownAdd} = this.state;
 
         const title = (
             <span>
-                <Button type='primary'>Create Role</Button> &nbsp;&nbsp;
+                <Button type='primary' onClick={() => this.setState({isShownAdd: true})}>Create Role</Button> &nbsp;&nbsp;
                 <Button type='primary' disabled={!role._id}>Set Role Permissons</Button>
             </span>
         );
@@ -86,6 +92,19 @@ export default class RoleManagement extends Component {
                     onRow={this.onRow}
                 >
                 </Table>
+
+                <Modal
+                    title='Add New Role'
+                    visible={isShownAdd}
+                    onOk={this.addRole}
+                    onCancel={() => {this.setState({
+                        isShownAdd: false
+                    })}}
+                >
+                    <AddForm
+                        setForm={(form) => this.form = form}
+                    />
+                </Modal>      
             </Card>
         );
     }
