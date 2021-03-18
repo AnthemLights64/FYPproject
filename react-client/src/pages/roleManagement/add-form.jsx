@@ -6,12 +6,14 @@ const {Item} = Form;
 
 export default class AddForm extends Component {
 
+    formRef = React.createRef();
+
     static propTypes = {
         setForm: PropTypes.func.isRequired,
     }
 
     UNSAFE_componentWillMount () {
-        this.props.setForm(this.props.form);
+        this.props.setForm(this.formRef);
     }
 
     render() {
@@ -22,12 +24,12 @@ export default class AddForm extends Component {
         }
 
         return (
-            <Form >
+            <Form ref={this.formRef}>
                 <Item 
                     label='Role Name' 
-                    name='rolename'
+                    name='roleName'
                     {...formItemLayout} 
-                    initialValue='nimasile' 
+                    initialValue='' 
                     rules={[{
                         required: true, 
                         message: 'Role name must be entered!'

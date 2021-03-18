@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import { Card, Button, Table, Modal } from 'antd';
+import { Card, Button, Table, Modal, message } from 'antd';
 import {PAGE_SIZE} from '../../utils/constants';
-import { reqRoles } from '../../api';
+import { reqRoles, reqAddRole } from '../../api';
 import AddForm from './add-form';
 
 export default class RoleManagement extends Component {
@@ -55,6 +55,40 @@ export default class RoleManagement extends Component {
     }
 
     addRole = () => {
+        // Validate the form
+        this.form.current.validateFields()
+            .then( async values => {
+
+                this.setState({
+                    isShownAdd: false
+                });
+
+                // Collect input data
+                const {roleName} = values;
+                this.form.current.resetFields();
+
+                // Request add new role
+                const result = await reqAddRole(roleName);
+
+                // Give a hint based on the result
+                if (result.data.status===0) {
+                    message.success('Successfully added the role!');
+                    this.getRoles();
+                    const role = result.data.data;
+                    // const roles = [...this.state.roles];
+                    // roles.push(role);
+                    // this.setState({
+                    //     roles
+                    // });
+                    this.setState(state => ({
+                        roles: [...state.roles, role]                        
+                    }));
+                } else {
+                    message.error('Failed to add new role');
+                }
+            })
+            .catch();
+
 
     }
 
@@ -97,9 +131,12 @@ export default class RoleManagement extends Component {
                     title='Add New Role'
                     visible={isShownAdd}
                     onOk={this.addRole}
-                    onCancel={() => {this.setState({
-                        isShownAdd: false
-                    })}}
+                    onCancel={() => {
+                        this.setState({
+                            isShownAdd: false
+                        });
+                        this.form.current.resetFields();
+                    }}
                 >
                     <AddForm
                         setForm={(form) => this.form = form}
