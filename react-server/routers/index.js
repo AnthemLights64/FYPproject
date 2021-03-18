@@ -46,7 +46,7 @@ UserModel.findOne({username, password: md5(password)})
 });
 
 // Add user
-router.post('/manage/user/add', (req, res) => {
+router.post('/management/user/add', (req, res) => {
     // Read the data of request parameters
     const {username, password} = req.body;
     // Check if the user already exists
@@ -68,7 +68,7 @@ router.post('/manage/user/add', (req, res) => {
 });
 
 // Update user
-router.post('/manage/user/update', (req, res) => {
+router.post('/management/user/update', (req, res) => {
     const user = req.body;
     UserModel.findOneAndUpdate({_id: user._id}, user)
         .then(oldUser => {
@@ -81,7 +81,7 @@ router.post('/manage/user/update', (req, res) => {
 });
 
 // Delete user
-router.post('/manage/user/delete', (req, res) => {
+router.post('/management/user/delete', (req, res) => {
     const {userId} = req.body;
     UserModel.deleteOne({_id: userId})
         .then((doc) => {
@@ -90,7 +90,7 @@ router.post('/manage/user/delete', (req, res) => {
 });
 
 // Get a list of all users
-router.get('/manage/user/list', (req, res) => {
+router.get('/management/user/list', (req, res) => {
     UserModel.find({username: {'$ne': 'admin'}}) // $ne means not equal to
         .then(users => {
             RoleModel.find().then(roles => {
@@ -103,7 +103,7 @@ router.get('/manage/user/list', (req, res) => {
 });
 
 // Add role
-router.post('/manage/role/add', (req, res) => {
+router.post('/management/role/add', (req, res) => {
     const {roleName} = req.body;
     RoleModel.create({name: roleName})
         .then(role => {
@@ -115,7 +115,7 @@ router.post('/manage/role/add', (req, res) => {
 });
 
 // Get role list
-router.get('/manage/role/list', (req, res) => {
+router.get('/management/role/list', (req, res) => {
     RoleModel.find()
         .then(roles => {
             res.send({status: 0, data: roles});
@@ -126,7 +126,7 @@ router.get('/manage/role/list', (req, res) => {
 });
 
 // Update role (set permissions)
-router.post('/manage/role/update', (req, res) => {
+router.post('/management/role/update', (req, res) => {
     const role = req.body;
     role.auth_time = Date.now();
     RoleModel.findOneAndUpdate({_id: role._id}, role)
