@@ -44,3 +44,6 @@ export const reqAddRole = (roleName) => ajax(BASE + '/management/role/add', {rol
 
 // Set role permissions
 export const reqSetRolePermissions = (role) => ajax('/management/role/update', role, 'POST');
+
+// Delete role
+export const reqDeleteRole = (role) => ajax(BASE + '/management/role/delete', role, 'POST');

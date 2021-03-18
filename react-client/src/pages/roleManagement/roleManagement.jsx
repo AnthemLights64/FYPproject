@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import { Card, Button, Table, Modal, message } from 'antd';
+import { Card, Button, Table, Modal, message, Popconfirm } from 'antd';
 import {PAGE_SIZE} from '../../utils/constants';
-import { reqRoles, reqAddRole, reqSetRolePermissions} from '../../api';
+import { reqRoles, reqAddRole, reqSetRolePermissions, reqDeleteRole} from '../../api';
 import AddForm from './add-form';
 import AuthForm from './auth-form';
 import memoryUtils from '../../utils/memoryUtils';
@@ -142,7 +142,26 @@ export default class RoleManagement extends Component {
         const title = (
             <span>
                 <Button type='primary' onClick={() => this.setState({isShownAdd: true})}>Create Role</Button> &nbsp;&nbsp;
-                <Button type='primary' disabled={!role._id} onClick={() => this.setState({isShownAuth: true})}>Set Role Permissons</Button>
+                <Button type='primary' disabled={!role._id} onClick={() => this.setState({isShownAuth: true})}>Set Role Permissons</Button>&nbsp;&nbsp;
+                <Popconfirm
+                        title="Are you sure to delete this role?"
+                        onConfirm={async() => {
+                            const result = await reqDeleteRole(role);
+                            if (result.data.status===0) {
+                                message.success('Successfully deleted the role!');
+                            } else {
+                                message.error('Failed to delete the role.');
+                            }
+                            this.getRoles();
+                        }}
+                        okText="Yes"
+                        cancelText="No"
+                    >
+                        <Button type='danger' disabled={!role._id}>
+                            Delete
+                        </Button>
+                    </Popconfirm>
+                
             </span>
         );
 

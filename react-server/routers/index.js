@@ -138,6 +138,25 @@ router.post('/management/role/update', (req, res) => {
         });
 });
 
+// Delete role
+router.post('/management/role/delete', (req, res) => {
+    const role = req.body;
+    RoleModel.findOneAndDelete({_id: ObjectId(role._id)}, role)
+        .then(role => {
+            res.send({
+                status: 0,
+                data: role,
+            });
+        })
+        .catch(error => {
+            console.error('Failed to delete role!', error);
+            res.send({
+                status: 1,
+                msg: 'Failed to delete role. Please try again.'
+            });
+        });
+});
+
 // Get the paging information object of the specified array
 function pageFilter(arr, pageNum, pageSize) {
     pageNum = pageNum * 1;
