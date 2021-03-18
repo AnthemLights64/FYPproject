@@ -35,3 +35,6 @@ export const reqAddOrUpdateMember = (member) => ajax(BASE + '/management/member/
 
 // Delete member
 export const reqDeleteMember = (member) => ajax(BASE + '/management/member/delete', member, 'POST');
+
+// Get the role list
+export const reqRoles = () => ajax(BASE + '/management/role/list');

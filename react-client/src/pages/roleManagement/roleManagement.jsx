@@ -1,21 +1,13 @@
 import React, {Component} from 'react';
 import {Card, Button, Table} from 'antd';
 import {PAGE_SIZE} from '../../utils/constants';
+import { reqRoles } from '../../api';
 
 export default class RoleManagement extends Component {
 
     state = {
-        roles: [
-            // {
-            //     "menus": [],
-            //     "_id": "8fsafihf1f9ghafasf",
-            //     "name": "test",
-            //     "create_time": 151511523532525,
-            //     "__v": 0,
-            //     "auth_time": 151511523532526,
-            //     "auth_name": "test1"
-            // }
-        ]
+        roles: [], // The list of all roles
+        role: {}, // The selected role
     }
 
     initColumn = () => {
@@ -39,11 +31,23 @@ export default class RoleManagement extends Component {
         ];
     }
 
+    getRoles = async () => {
+        const result = await reqRoles();
+        if (result.data.status===0) {
+            const roles = result.data.data;
+            this.setState({
+                roles
+            });
+        }
+    }
+
     onRow = (role) => {
         return {
             onClick: event => {
                 console.log('row onClick', role)
-                alert('Row Selected.')
+                this.setState({
+                    role
+                });
             }
         }
     }
@@ -52,14 +56,18 @@ export default class RoleManagement extends Component {
         this.initColumn();
     }
 
+    componentDidMount () {
+        this.getRoles();
+    }
+
     render () {
 
-        const {roles} = this.state;
+        const {roles, role} = this.state;
 
         const title = (
             <span>
                 <Button type='primary'>Create Role</Button> &nbsp;&nbsp;
-                <Button type='primary' disabled>Set Role Permissons</Button>
+                <Button type='primary' disabled={!role._id}>Set Role Permissons</Button>
             </span>
         );
 
@@ -74,7 +82,7 @@ export default class RoleManagement extends Component {
                         showQuickJumper: true, 
                     }}
                     dataSource={roles}
-                    rowSelection={{type: 'radio'}}
+                    rowSelection={{type: 'radio', selectedRowKeys: [role._id]}}
                     onRow={this.onRow}
                 >
                 </Table>
