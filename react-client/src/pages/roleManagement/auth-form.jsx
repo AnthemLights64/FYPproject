@@ -46,6 +46,15 @@ export default class Auth extends Component {
         this.treeNodes = this.getTreeNodes(menuList);
     }
 
+    // Update the state of "checkedKeys" according to the newly passed in role
+    // Invoke automatically when the component receives new attributes
+    UNSAFE_componentWillReceiveProps (nextProps) {
+        const menus = nextProps.role.menus;
+        this.setState({
+            checkedKeys: menus
+        });
+    }
+
     render() {
 
         const {role} = this.props;

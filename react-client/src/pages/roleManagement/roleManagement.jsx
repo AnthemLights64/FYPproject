@@ -4,6 +4,8 @@ import {PAGE_SIZE} from '../../utils/constants';
 import { reqRoles, reqAddRole, reqSetRolePermissions} from '../../api';
 import AddForm from './add-form';
 import AuthForm from './auth-form';
+import memoryUtils from '../../utils/memoryUtils';
+import {formatDate} from '../../utils/dateUtils';
 
 export default class RoleManagement extends Component {
 
@@ -27,15 +29,17 @@ export default class RoleManagement extends Component {
             },
             {
                 title: 'Create Time',
-                dataIndex: 'create_time'
+                dataIndex: 'create_time',
+                render: formatDate
             },
             {
                 title: 'Authorization Time',
-                dataIndex: 'name'
+                dataIndex: 'auth_time',
+                render: formatDate
             },
             {
                 title: 'Operator',
-                dataIndex: 'name'
+                dataIndex: 'auth_name'
             }
         ];
     }
@@ -108,6 +112,9 @@ export default class RoleManagement extends Component {
         const role = this.state.role;
         const menus = this.auth.current.getMenus();
         role.menus = menus;
+        role.auth_time = Date.now();
+        role.auth_name = memoryUtils.user.username;
+
         const result = await reqSetRolePermissions(role);
         if (result.data.status===0) {
             message.success('Successfully set the role permissions!');
@@ -152,6 +159,7 @@ export default class RoleManagement extends Component {
                     dataSource={roles}
                     rowSelection={{type: 'radio', selectedRowKeys: [role._id]}}
                     onRow={this.onRow}
+                    showQuickJumper={true}
                 >
                 </Table>
 
