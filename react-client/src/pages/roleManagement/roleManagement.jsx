@@ -14,6 +14,7 @@ export default class RoleManagement extends Component {
         role: {}, // The selected role
         isShownAdd: false, // Display the adding interface or not
         isShownAuth: false, //Display the permission setting interface or not
+        loading: false
     }
 
     constructor (props) {
@@ -45,7 +46,9 @@ export default class RoleManagement extends Component {
     }
 
     getRoles = async () => {
+        this.setState({loading: true});
         const result = await reqRoles();
+        this.setState({loading: false});
         if (result.data.status===0) {
             const roles = result.data.data;
             this.setState({
@@ -137,7 +140,7 @@ export default class RoleManagement extends Component {
 
     render () {
 
-        const {roles, role, isShownAdd, isShownAuth} = this.state;
+        const {roles, role, isShownAdd, isShownAuth, loading} = this.state;
 
         const title = (
             <span>
@@ -178,6 +181,7 @@ export default class RoleManagement extends Component {
                     dataSource={roles}
                     rowSelection={{type: 'radio', selectedRowKeys: [role._id]}}
                     onRow={this.onRow}
+                    loading={loading}
                 >
                 </Table>
 

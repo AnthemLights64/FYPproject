@@ -12,6 +12,7 @@ export default class UserForm extends PureComponent {
     static propTypes = {
         setForm: PropTypes.func.isRequired,
         roles: PropTypes.array.isRequired,
+        user: PropTypes.object,
     }
 
     UNSAFE_componentWillMount () {
@@ -25,14 +26,14 @@ export default class UserForm extends PureComponent {
         wrapperCol: { span: 15 }, 
         }
 
-        const {roles} = this.props;
+        const {roles, user} = this.props;
 
         return (
             <Form ref={this.formRef} {...formItemLayout} >
                 <Item 
                     label='Username' 
                     name='username'
-                    initialValue='' 
+                    initialValue={user.username} 
                     rules={[{
                         required: true, 
                         message: 'Username must be entered!'
@@ -40,21 +41,25 @@ export default class UserForm extends PureComponent {
                 >
                     <Input placeholder='Please input the username.' />
                 </Item>
-                <Item 
-                    label='Password' 
-                    name='password'
-                    initialValue='' 
-                    rules={[{
-                        required: true, 
-                        message: 'Password must be entered!'
-                    }]}
-                >
-                    <Input type='password' placeholder='Please input the password.' />
-                </Item>
+                {
+                    user._id ? null : (
+                        <Item 
+                            label='Password' 
+                            name='password'
+                            initialValue={user.password} 
+                            rules={[{
+                                required: true, 
+                                message: 'Password must be entered!'
+                            }]}
+                        >
+                            <Input type='password' placeholder='Please input the password.' />
+                        </Item>
+                    )
+                }
                 <Item 
                     label='Role' 
                     name='role_id'
-                    initialValue='' 
+                    initialValue={user.role_id}
                 >
                     <Select>
                         {
@@ -65,7 +70,7 @@ export default class UserForm extends PureComponent {
                 <Item 
                     label='Notes' 
                     name='notes'
-                    initialValue='' 
+                    initialValue={user.notes}
                 >
                     <Input placeholder='Please input the notes.' />
                 </Item>

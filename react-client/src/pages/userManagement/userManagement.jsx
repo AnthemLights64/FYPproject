@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { Card, Button, Table, Modal, message } from 'antd';
 import {PAGE_SIZE} from '../../utils/constants';
 import {formatDate} from '../../utils/dateUtils';
-import { reqAddUser, reqDeleteUser, reqUsers } from '../../api';
+import { reqAddOrUpdateUser, reqDeleteUser, reqUsers } from '../../api';
 import UserForm from './user-form';
 
 export default class UserManagement extends Component {
@@ -11,6 +11,7 @@ export default class UserManagement extends Component {
         users: [], // List of all users
         roles: [], // List of all roles
         isShown: false, // Display the interface or not
+        loading: false
     }
 
     initColumns = () => {
@@ -37,7 +38,17 @@ export default class UserManagement extends Component {
                 title: 'Action',
                 render: (user) => (
                     <span>
-                        <Button type='link'>Edit</Button>
+                        <Button 
+                        type='link' 
+                        onClick={() => {
+                            this.user = user;
+                            this.setState({
+                                isShown: true
+                            });
+                        }}
+                        >
+                            Edit
+                        </Button>
                         <Button 
                             type='link' 
                             style={{color: "red"}}
@@ -68,10 +79,15 @@ export default class UserManagement extends Component {
         const user = this.form.current.getFieldsValue();
         this.form.current.resetFields();
 
+        // If it is update, declare the _id for user
+        if (this.user) {
+            user._id = this.user._id;
+        }
+
         // Commit the add request
-        const result = await reqAddUser(user);
+        const result = await reqAddOrUpdateUser(user);
         if (result.data.status===0) {
-            message.success('Successfully added the user!');
+            message.success(`Successfully ${this.user ? 'updated' : 'added'} the user!`);
             this.getUsers();
         } else {
             message.error('Failed to add the user.');
@@ -81,7 +97,9 @@ export default class UserManagement extends Component {
     }
 
     getUsers = async () => {
+        this.setState({loading: true});
         const result = await reqUsers();
+        this.setState({loading: false});
         if (result.data.status===0) {
             const {users, roles} = result.data.data;
             this.initRoleNames(roles);
@@ -119,9 +137,13 @@ export default class UserManagement extends Component {
 
     render () {
 
-        const {users, roles, isShown} = this.state;
+        const {users, roles, isShown, loading} = this.state;
+        const user = this.user || {};
 
-        const title = <Button type='primary' onClick={() => this.setState({isShown: true})}>Create User</Button>;
+        const title = <Button type='primary' onClick={() => {
+            this.user = null;
+            this.setState({isShown: true});
+        }}>Create User</Button>;
 
         return (
             <Card title={title}>
@@ -134,18 +156,25 @@ export default class UserManagement extends Component {
                         showQuickJumper: true, 
                     }}
                     dataSource={users}
+                    loading={loading}
                 >
                 </Table>
 
                 <Modal
-                    title='Create User'
+                    title={user._id ? 'Update User' : 'Create User'}
                     visible={isShown}
                     onOk={this.addOrUpdateUser}
-                    onCancel={() => this.setState({isShown: false})}
+                    onCancel={() => {
+                        this.form.current.resetFields();
+                        this.setState({isShown: false});
+                        this.user = null;
+                    }}
+                    destroyOnClose
                 >
                     <UserForm 
                         setForm={form => this.form = form}
                         roles={roles}
+                        user={this.user}
                     />
                 </Modal>      
             </Card>

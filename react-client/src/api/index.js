@@ -13,8 +13,8 @@ const BASE = '';
 // }
 export const reqLogin = (username, password) => ajax(BASE + '/login', {username, password}, 'POST');
 
-// add user
-export const reqAddUser = (user) => ajax(BASE + '/management/user/add', user, 'POST');
+// Add or Update user
+export const reqAddOrUpdateUser = (user) => ajax(BASE + '/management/user/' + (user._id ? 'update' : 'add'), user, 'POST');
 
 // Get members paging list
 export const reqMembers = (pageNum, pageSize) => ajax(BASE + '/management/member/list', {pageNum, pageSize});
