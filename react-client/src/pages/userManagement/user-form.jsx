@@ -11,6 +11,7 @@ export default class UserForm extends PureComponent {
 
     static propTypes = {
         setForm: PropTypes.func.isRequired,
+        roles: PropTypes.array.isRequired,
     }
 
     UNSAFE_componentWillMount () {
@@ -23,6 +24,8 @@ export default class UserForm extends PureComponent {
         labelCol: { span: 4 },  
         wrapperCol: { span: 15 }, 
         }
+
+        const {roles} = this.props;
 
         return (
             <Form ref={this.formRef} {...formItemLayout} >
@@ -51,11 +54,12 @@ export default class UserForm extends PureComponent {
                 <Item 
                     label='Role' 
                     name='role_id'
-                    initialValue='1' 
+                    initialValue='' 
                 >
                     <Select>
-                        <Option value='1'>A</Option>
-                        <Option value='2'>B</Option>
+                        {
+                            roles.map(role => <Option key={role._id}>{role.name}</Option>)
+                        }
                     </Select>
                 </Item>
                 <Item 

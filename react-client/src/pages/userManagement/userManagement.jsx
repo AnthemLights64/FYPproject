@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { Card, Button, Table, Modal, message } from 'antd';
 import {PAGE_SIZE} from '../../utils/constants';
 import {formatDate} from '../../utils/dateUtils';
-import { reqDeleteUser, reqUsers } from '../../api';
+import { reqAddUser, reqDeleteUser, reqUsers } from '../../api';
 import UserForm from './user-form';
 
 export default class UserManagement extends Component {
@@ -60,8 +60,24 @@ export default class UserManagement extends Component {
         this.roleNames = roleNames;
     }
 
-    addOrUpdateUser = () => {
-        
+    addOrUpdateUser = async () => {
+
+        this.setState({isShown: false});
+
+        // Collect input data
+        const user = this.form.current.getFieldsValue();
+        this.form.current.resetFields();
+
+        // Commit the add request
+        const result = await reqAddUser(user);
+        if (result.data.status===0) {
+            message.success('Successfully added the user!');
+            this.getUsers();
+        } else {
+            message.error('Failed to add the user.');
+        }
+
+        // Update the list
     }
 
     getUsers = async () => {
@@ -103,7 +119,7 @@ export default class UserManagement extends Component {
 
     render () {
 
-        const {users, isShown} = this.state;
+        const {users, roles, isShown} = this.state;
 
         const title = <Button type='primary' onClick={() => this.setState({isShown: true})}>Create User</Button>;
 
@@ -129,6 +145,7 @@ export default class UserManagement extends Component {
                 >
                     <UserForm 
                         setForm={form => this.form = form}
+                        roles={roles}
                     />
                 </Modal>      
             </Card>
