@@ -5,6 +5,7 @@ import { reqRoles, reqAddRole, reqSetRolePermissions, reqDeleteRole} from '../..
 import AddForm from './add-form';
 import AuthForm from './auth-form';
 import memoryUtils from '../../utils/memoryUtils';
+import storageUtils from '../../utils/storageUtils';
 import {formatDate} from '../../utils/dateUtils';
 
 export default class RoleManagement extends Component {
@@ -120,11 +121,20 @@ export default class RoleManagement extends Component {
 
         const result = await reqSetRolePermissions(role);
         if (result.data.status===0) {
-            message.success('Successfully set the role permissions!');
+            
             //this.getRoles();
-            this.setState({
-                role: [...this.state.roles]
-            });
+            // If the permissions currently updated is one's own role's, then force quit
+            if (role._id===memoryUtils.user.role_id) {
+                memoryUtils.user = {};
+                storageUtils.removeUser();
+                this.props.history.replace('/login');
+                message.info('The permissions of current user has changed. Please login again.');
+            } else {
+                message.success('Successfully set the role permissions!');
+                this.setState({
+                    role: [...this.state.roles]
+                });
+            }
         } else {
             message.error('Failed to set the role permissions.');
         }

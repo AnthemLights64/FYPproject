@@ -174,7 +174,7 @@ export default class UserManagement extends Component {
                     <UserForm 
                         setForm={form => this.form = form}
                         roles={roles}
-                        user={this.user}
+                        user={user}
                     />
                 </Modal>      
             </Card>

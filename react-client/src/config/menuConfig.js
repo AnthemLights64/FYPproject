@@ -10,7 +10,8 @@ const menuList = [
         title: 'Homepage: Team',
         key: 'homepage',
         icon: <HomeOutlined />,
-        route: '/home'
+        route: '/home',
+        isPublic: true
     },
     {
         title: 'Calendar',

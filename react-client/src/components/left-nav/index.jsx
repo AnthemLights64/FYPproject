@@ -10,9 +10,30 @@ import { Menu } from 'antd';
 import './index.less';
 import logo from '../../assets/images/logo.png';
 import menuList from '../../config/menuConfig'; 
+import memoryUtils from '../../utils/memoryUtils';
 
 const {SubMenu} = Menu;
 class LeftNav extends Component {
+
+    // Identify whether the currently logged in user has permission to the item
+    hasAuth = (item) => {
+
+        const {route, isPublic} = item;
+        const menus = memoryUtils.user.role.menus;
+        const username = memoryUtils.user.username;
+        /*
+        1. If the current user is admin, return true
+        2. If the item is public
+        3. If the current user has permission to this item (whether 'route' is in the array 'menus')
+        */
+        if (username==='admin' || isPublic || menus.indexOf(route)!==-1) {
+            return true;
+        } else if (item.children) { // 4. It the current user has permission to the sub-item of this item
+            return !!item.children.find(child => menus.indexOf(child.route)!==-1);
+        }
+
+        return false;
+    }
 
     // getMenuNodes_map = (menuList) => {
     //     return menuList.map(item => {
@@ -39,26 +60,31 @@ class LeftNav extends Component {
         const path = this.props.location.pathname;
 
         return menuList.reduce((pre, item) => {
-            if (!item.children) {
-                pre.push((
-                    <Menu.Item key={item.key} icon={item.icon}>
-                        <Link to={item.route}>
-                            {item.title}
-                        </Link>
-                    </Menu.Item>
-                ));
-            } else {
-                const cItem = item.children.find( cItem => path.indexOf(cItem.route)===0);
-                if (cItem) {
-                    this.openKey = item.key
+
+            // If the current user has the permission to the item, then display that item of the menu
+            if (this.hasAuth(item)) {
+                if (!item.children) {
+                    pre.push((
+                        <Menu.Item key={item.key} icon={item.icon}>
+                            <Link to={item.route}>
+                                {item.title}
+                            </Link>
+                        </Menu.Item>
+                    ));
+                } else {
+                    const cItem = item.children.find( cItem => path.indexOf(cItem.route)===0);
+                    if (cItem) {
+                        this.openKey = item.key
+                    }
+                    
+                    pre.push((
+                        <SubMenu key={item.key} icon={item.icon} title={item.title}>
+                            {this.getMenuNodes(item.children)}
+                        </SubMenu>
+                    ));
                 }
-                
-                pre.push((
-                    <SubMenu key={item.key} icon={item.icon} title={item.title}>
-                        {this.getMenuNodes(item.children)}
-                    </SubMenu>
-                ));
             }
+
             return pre;
         }, []);
     }
