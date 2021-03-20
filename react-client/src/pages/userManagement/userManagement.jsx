@@ -3,6 +3,7 @@ import { Card, Button, Table, Modal, message } from 'antd';
 import {PAGE_SIZE} from '../../utils/constants';
 import {formatDate} from '../../utils/dateUtils';
 import { reqDeleteUser, reqUsers } from '../../api';
+import UserForm from './user-form';
 
 export default class UserManagement extends Component {
 
@@ -104,7 +105,7 @@ export default class UserManagement extends Component {
 
         const {users, isShown} = this.state;
 
-        const title = <Button type='primary'>Create User</Button>;
+        const title = <Button type='primary' onClick={() => this.setState({isShown: true})}>Create User</Button>;
 
         return (
             <Card title={title}>
@@ -126,7 +127,9 @@ export default class UserManagement extends Component {
                     onOk={this.addOrUpdateUser}
                     onCancel={() => this.setState({isShown: false})}
                 >
-                    <div>Add or Update Interface</div>
+                    <UserForm 
+                        setForm={form => this.form = form}
+                    />
                 </Modal>      
             </Card>
         );
