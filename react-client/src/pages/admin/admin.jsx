@@ -26,10 +26,10 @@ export default class Admin extends Component {
 
         return (
             <Layout style={{minHeight:'100%'}}>
-                <Sider>
+                <Sider style={{zIndex: 9999}}>
                     <LeftNav/>
                 </Sider>
-                <Layout>
+                <Layout style={{minWidth: 1000}}>
                     <Header>Header</Header>
                     <Content style={{margin: 20, backgroundColor: '#ffffff'}}>
                         <Switch>

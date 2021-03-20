@@ -189,7 +189,15 @@ export default class RoleManagement extends Component {
                         showQuickJumper: true, 
                     }}
                     dataSource={roles}
-                    rowSelection={{type: 'radio', selectedRowKeys: [role._id]}}
+                    rowSelection={{
+                        type: 'radio', 
+                        selectedRowKeys: [role._id],
+                        onSelect: (role) => {
+                            this.setState({
+                                role
+                            });
+                        }
+                    }}
                     onRow={this.onRow}
                     loading={loading}
                 >

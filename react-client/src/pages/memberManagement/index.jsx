@@ -88,6 +88,7 @@ export default class MembersList extends Component {
 
     // Get the list of specified page number
     getMembers = async (pageNum) => {
+        this.pageNum = pageNum;
         this.setState({loading: true});
         const {searchName, searchType} = this.state;
         let result;
@@ -163,6 +164,7 @@ export default class MembersList extends Component {
                     rowKey='_id'
                     bordered
                     pagination={{
+                        current: this.pageNum,
                         defaultPageSize: PAGE_SIZE, 
                         showQuickJumper: true, 
                         total,
