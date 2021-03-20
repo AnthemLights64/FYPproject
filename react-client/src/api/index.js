@@ -47,3 +47,6 @@ export const reqSetRolePermissions = (role) => ajax('/management/role/update', r
 
 // Delete role
 export const reqDeleteRole = (role) => ajax(BASE + '/management/role/delete', role, 'POST');
+
+// Get the user list
+export const reqUsers = () => ajax(BASE + '/management/user/list');

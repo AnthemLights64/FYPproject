@@ -178,7 +178,6 @@ export default class RoleManagement extends Component {
                     dataSource={roles}
                     rowSelection={{type: 'radio', selectedRowKeys: [role._id]}}
                     onRow={this.onRow}
-                    showQuickJumper={true}
                 >
                 </Table>
 
