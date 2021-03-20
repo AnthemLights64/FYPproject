@@ -50,3 +50,6 @@ export const reqDeleteRole = (role) => ajax(BASE + '/management/role/delete', ro
 
 // Get the user list
 export const reqUsers = () => ajax(BASE + '/management/user/list');
+
+// Delete user
+export const reqDeleteUser = (userId) => ajax(BASE + '/management/user/delete', {userId}, 'POST');

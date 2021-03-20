@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import { Card, Button, Table, Modal } from 'antd';
+import { Card, Button, Table, Modal, message } from 'antd';
 import {PAGE_SIZE} from '../../utils/constants';
 import {formatDate} from '../../utils/dateUtils';
-import { reqUsers } from '../../api';
+import { reqDeleteUser, reqUsers } from '../../api';
 
 export default class UserManagement extends Component {
 
@@ -37,7 +37,13 @@ export default class UserManagement extends Component {
                 render: (user) => (
                     <span>
                         <Button type='link'>Edit</Button>
-                        <Button type='link' style={{color: "red"}}>Delete</Button>
+                        <Button 
+                            type='link' 
+                            style={{color: "red"}}
+                            onClick={() => this.deleteUser(user)}
+                        >
+                            Delete
+                        </Button>
                     </span>
                 )
             }
@@ -69,6 +75,21 @@ export default class UserManagement extends Component {
         } else {
 
         }
+    }
+
+    deleteUser = (user) => {
+        Modal.confirm({
+            title: `Are you sure to delete ${user.username}?`,
+            onOk: async () => {
+                const result = await reqDeleteUser(user._id);
+                if (result.data.status===0) {
+                    message.success("Successfully deleted the user!");
+                    this.getUsers();
+                } else {
+                    message.error("Failed to delete the user");
+                }
+            }
+        });
     }
 
     UNSAFE_componentWillMount () {
