@@ -29,7 +29,7 @@ UserModel.findOne({username, password: md5(password)})
                 RoleModel.findOne({_id: user.role_id})
                     .then(role => {
                         user._doc.role = role;
-                        console.log('role user', user);
+                        //console.log('role user', user);
                         res.send({status: 0, data: user});
                     });
             } else {
