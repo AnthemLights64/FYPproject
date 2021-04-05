@@ -1,67 +1,19 @@
 import React, {Component} from 'react';
-import { Card, Pagination } from 'antd';
-import {reqMembers} from '../../api';
-import {PAGE_SIZE} from '../../utils/constants';
-import {BASE_IMAGE_URL} from '../../utils/constants';
+import { Switch, Route, Redirect} from 'react-router-dom';
+
+import Members from './index';
+import Details from './details';
 
 
-const { Meta } = Card;
+
 export default class Member extends Component {
-
-    constructor (props) {
-        super(props);
-        this.state = {
-            minValue: 0,
-            maxValue: 3
-        };
-    }
-
-    state = {
-        total: 0,
-        members: [],
-    }
-
-    getMembers = async (pageNum) => {
-        this.pageNum = pageNum;
-        this.setState({loading: true});
-        const result = await reqMembers(pageNum, PAGE_SIZE);
-
-        this.setState({loading: false});
-        if (result.data.status===0) {
-            const {total, list} = result.data.data;
-            this.setState({
-                total,
-                members: list
-            });
-        }
-    }
-
-    componentDidMount () {
-        this.getMembers(1);
-    }
-
     render () {
-
-        const { members, total } = this.state;
-
         return (
-            <>
-                {members && total>0 && members.slice(this.state.minValue, this.state.maxValue).map(e => (
-                    <Card
-                        hoverable
-                        style={{ width: 240 }}
-                        cover={<img alt="img" src={BASE_IMAGE_URL + e.photo[0]} />}
-                    >
-                        <Meta title={e.name} />
-                    </Card>
-                ))}
-                <Pagination
-                    defaultCurrent={1}
-                    defaultPageSize={3}
-                    onChange={this.getMembers}
-                    total={total}
-                />
-            </>
+            <Switch>
+                <Route exact path='/member' component={Members}/>
+                <Route path='/member/details' component={Details}/>
+                <Redirect to='/member'/>
+            </Switch>
         );
     }
 }
