@@ -8,6 +8,7 @@ const md5 = require('blueimp-md5');
 const UserModel = require('../models/UserModel');
 const RoleModel = require('../models/RoleModel');
 const MemberModel = require('../models/MemberModel');
+const EventModel = require('../models/EventModel');
 
 // Fetch the router object
 const router = express.Router();
@@ -279,6 +280,43 @@ router.get('/management/member/search', (req, res) => {
                 a: searchName,
                 b: searchType,
                 msg: 'Failed to get the matching list. Please try again'
+            });
+        });
+});
+
+// Add events
+router.post('/calendar/add', (req, res) => {
+    const events = req.body;
+    EventModel.create(events)
+        .then(events => {
+            res.send({
+                status: 0,
+                data: events
+            });
+        })
+        .catch(error => {
+            console.error("Failed to add new event!", error);
+            res.send({
+                status: 1,
+                msg: 'Failed to add new event. Please try again.'
+            });
+        });
+});
+
+// Get events list
+router.get('/calendar/events', (req, res) => {
+    EventModel.find()
+        .then(events => {
+            res.send({
+                status: 0,
+                data: events
+            });
+        })
+        .catch(error => {
+            console.error('Failed to get events.', error);
+            res.send({
+                status: 1,
+                msg: 'Failed to get events list. Please try again.'
             });
         });
 });
