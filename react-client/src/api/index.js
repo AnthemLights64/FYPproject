@@ -53,3 +53,9 @@ export const reqUsers = () => ajax(BASE + '/management/user/list');
 
 // Delete user
 export const reqDeleteUser = (userId) => ajax(BASE + '/management/user/delete', {userId}, 'POST');
+
+// Get events list
+export const reqEvents = () => ajax(BASE + '/calendar/events');
+
+// Add new event
+export const reqAddEvent = (events) => ajax(BASE + '/calendar/add', events, 'POST');

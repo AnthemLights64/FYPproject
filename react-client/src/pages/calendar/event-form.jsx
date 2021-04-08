@@ -42,7 +42,6 @@ export default class EventForm extends Component {
             <Form ref={this.formRef} {...formItemLayoutWithOutLabel}>
                 <List 
                     name="events"
- 
                 >
                     {(fields, { add, remove }, { errors }) => (
                         <>
@@ -75,7 +74,7 @@ export default class EventForm extends Component {
                                     ) : null}
                                 </Item>
                             ))}
-                            <Item>
+                            <Item key="newEvent">
                                 <Button
                                     type="dashed"
                                     onClick={() => add()}
