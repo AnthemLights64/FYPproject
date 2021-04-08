@@ -4,6 +4,7 @@ import moment from 'moment';
 import { formatDate } from '../../utils/dateUtils';
 import EventForm from './event-form';
 import { reqAddEvent, reqEvents } from '../../api';
+import memoryUtils from '../../utils/memoryUtils';
 
 export default class TeamCalendar extends Component {
 
@@ -76,15 +77,20 @@ export default class TeamCalendar extends Component {
     
   }
 
+  isAbleToEditCalendar() {
+    //console.log(memoryUtils.user.role.menus.indexOf('/management') > -1)
+    if (memoryUtils.user.username === 'admin') return true;
+    else if (memoryUtils.user.role.menus.indexOf('/management') > -1) return true;
+    else return false;
+  }
+
   UNSAFE_componentWillMount() {
     this.getEvents();
   }
 
   render () {
     
-    const { value, selectedValue, isShownEventForm, allEvents } = this.state;
-    
-    
+    const { value, selectedValue, isShownEventForm, allEvents } = this.state;  
 
     function getListData(value) {
       let listData = [];
@@ -126,7 +132,7 @@ export default class TeamCalendar extends Component {
     return (
       <>
         <Alert message={`You selected date: ${selectedValue && selectedValue.format('YYYY-MM-DD')}`}/>
-        <Button type='primary' disabled={false} onClick={() => this.setState({isShownEventForm: true})}>Edit Events</Button>
+        <Button type='primary' disabled={!this.isAbleToEditCalendar()} onClick={() => this.setState({isShownEventForm: true})}>Edit Events</Button>
         <Calendar 
           dateCellRender={dateCellRender} 
           value={value}
