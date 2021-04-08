@@ -122,7 +122,7 @@ export default class TeamCalendar extends Component {
         <ul className="events">
           {listData.map(item => (
             <li key={item.content}>
-              <Badge color="#E06049" text={item.content} />
+              <Badge color={'#' + Math.random().toString(16).substr(2, 6)} text={item.content} />
             </li>
           ))}
         </ul>
