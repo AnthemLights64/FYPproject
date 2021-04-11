@@ -1,0 +1,85 @@
+:root {
+    --fontColor: #ffc0cb;
+    --one1: #bd7be8;
+    --one2: #8063e1;
+    --two1: #7f94fc;
+    --two2: #3f58e3;
+    --three1: #21bbfe;
+    --three2: #2c6fd1;
+    --four1: #415197;
+    --four2: #352f64;
+    --levelShadow: #22325480;
+  }
+  .levels {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -140px;
+    margin-top: -90px;
+    transform-style: preserve-3d;
+    user-select: none;
+    .level {
+      width: 280px;
+      height: 140px;
+      border-radius: 12px;
+      color: var(--fontColor);
+      cursor: pointer;
+      transition: all 0.4s ease;
+      transform: rotateX(45deg) rotateY(-15deg) rotate(45deg);
+      opacity: 0.9;
+      margin-top: -70px;
+      &.one {
+        background: linear-gradient(135deg, var(--one1), var(--one2));
+        box-shadow: 20px 20px 60px var(--levelShadow), 1px 1px 0px 1px var(--one2);
+        z-index: 4;
+      }
+      &.two {
+        background: linear-gradient(135deg, var(--two1), var(--two2));
+        box-shadow: 20px 20px 60px var(--levelShadow), 1px 1px 0px 1px var(--two2);
+        z-index: 3;
+      }
+      &.three {
+        background-image: linear-gradient(135deg, var(--three1), var(--three2));
+        box-shadow: 20px 20px 60px var(--levelShadow), 1px 1px 0px 1px var(--three2);
+        z-index: 2;
+      }
+      &.four {
+        background-image: linear-gradient(135deg, var(--four1), var(--four2));
+        box-shadow: 20px 20px 60px var(--levelShadow), 1px 1px 0px 1px var(--four2);
+        z-index: 1;
+      }
+      .title {
+        position: absolute;
+        top: 28px;
+        left: 15px;
+        font-size: 26px;
+        font-weight: bold;
+      }
+      .content {
+        position: absolute;
+        font-weight: 700;
+        bottom: 15px;
+        left: 15px;
+        font-size: 16px;
+      }
+      &:hover {
+        transform: rotateX(30deg) rotateY(-15deg) rotate(30deg) translate(-25px, 50px);
+        opacity: 0.6;
+        &:after {
+          transform: translateX(100%);
+          transition: all 1.2s ease-in-out;
+        }
+      }
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0px;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        transform: translateX(-100%);
+        background: linear-gradient(60deg, rgba(255,255,255,0) 20%, rgba(255,255,255,0.1), rgba(255,255,255,0) 80%);
+      }
+    }
+  }
+  
