@@ -14,7 +14,7 @@ Esports is a super fast growing industry in the past few years, and it's also a 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). 
 It includes Ant Design components to construct interfaces. 
 It uses a cloud database of MongoDB.
-Also for quick browsing, you can access the deployed site directly. [Royal Never Give Up](https://)
+As for quick browsing, you can access the deployed site directly. [Royal Never Give Up](https://sad-archimedes-c1e101.netlify.app/). But you can only see the login page because I don't have a server to deploy my backend. I would recommand you to clone my project and do the installation as following.
 
 ## Install
 Firstly, clone the repository from github.
@@ -47,11 +47,11 @@ http://localhost:3000
 ## Features
 - **Login**
 An administrator account will be created when the project is first run. 
-`Username:` `admin`
-`Password:` `admin`
+`Username`: `admin`
+`Password`: `admin`
 Administrator can create users after logging in the system.
 - **Home Page**
-This page displays 
+This page displays some achievements of RNG.
 - **Calendar**
 This is a calendar where users can check the events of the club. Users who have management permissions can edit the calendar.
 - **Members**

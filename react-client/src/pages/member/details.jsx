@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { Button, Card } from 'antd';
 import {ArrowLeftOutlined} from '@ant-design/icons';
-import {BASE_IMAGE_URL} from '../../utils/constants';
+//import {BASE_IMAGE_URL} from '../../utils/constants';
 
 
 export default class Details extends Component {
@@ -9,7 +9,7 @@ export default class Details extends Component {
 
         // const {name, nickname, position, gender, dob, nationality, phone, address, photo=[], details} = this.props.location.state.member;
 
-        const {photo=[], details} = this.props.location.state.member;
+        const {details} = this.props.location.state.member;
 
         const title = (
             <span>
@@ -25,7 +25,7 @@ export default class Details extends Component {
         
         return (
             <Card title={title}>
-                <span>
+                {/* <span>
                     {
                         photo.map(img => (
                             <img
@@ -36,7 +36,7 @@ export default class Details extends Component {
                             />
                         ))
                     }
-                </span>
+                </span> */}
 
                 <span dangerouslySetInnerHTML={{__html: details}}></span>
             </Card>
