@@ -9,6 +9,7 @@
 const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
+const port = 80;
 
 mongoose.set('useFindAndModify', false);
 
@@ -29,10 +30,14 @@ mongoose.connect('mongodb+srv://admin:admin@cluster0.yeoyo.mongodb.net/RNG?retry
     .then(() => {
         console.log("Successfully connected to the database!")
         // Start the server only when the database is connected
-        app.listen('5000', () => {
-            console.log('Successfully started the server, please visit: http://localhost:5000');
+        // app.listen('5000', () => {
+        //     console.log('Successfully started the server, please visit: http://localhost:5000');
+        // })
+        app.listen(port, () => {
+            console.log(`Server listen on port ${port}`)
         })
     })
     .catch(error => {
         console.error('Fail to connect to the database', error);
     });
+
