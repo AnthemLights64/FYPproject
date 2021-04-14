@@ -25,6 +25,21 @@ app.use(cookieParser());
 const indexRouter = require('./routers');
 app.use('/', indexRouter);
 
+const fs = require('fs');
+app.use((req, res) => {
+    fs.readFile(__dirname + '/public/index.html', (err, data) => {
+        if (err) {
+            console.log(err);
+            res.send('Backend errors.');
+        } else {
+            res.writeHead(200, {
+                'Content-Type': 'text/html; charset=utf-8',
+            });
+            res.end(data);
+        }
+    });
+});
+
 // Connect to the database via mongoose
 mongoose.connect('mongodb+srv://admin:admin@cluster0.yeoyo.mongodb.net/RNG?retryWrites=true&w=majority', {useNewUrlParser: true, useUnifiedTopology: true})
     .then(() => {
