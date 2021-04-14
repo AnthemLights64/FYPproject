@@ -14,7 +14,7 @@ Esports is a super fast growing industry in the past few years, and it's also a 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). 
 It includes Ant Design components to construct interfaces. 
 It uses a cloud database of MongoDB.
-As for quick browsing, you can access the deployed site directly. [Royal Never Give Up](https://sad-archimedes-c1e101.netlify.app/). But you can only see the login page because I don't have a server to deploy my backend. I would recommand you to clone my project and do the installation as following.
+As for quick browsing, you can access the deployed site directly. [Royal Never Give Up](ec2-54-217-174-185.eu-west-1.compute.amazonaws.com:80).
 
 ## Install
 Firstly, clone the repository from github.
@@ -42,7 +42,8 @@ Now you can access localhost for this project.
 ``` sh
 http://localhost:3000
 ```
-
+***Important hint:*** After cloning the project to your own PC, remember to alter the url in FYPprject/react-client/src/utils/constants.js. 
+Comment out the AWS server url, use localhost.
 
 ## Features
 - **Login**
@@ -63,3 +64,4 @@ Users who have permission to this page can create user, update user and delete u
 - **Role Management**
 Users who have permission to this page can create role, delete role and set role permission. Role permissions will determine which modules the user can access. When users are created, each user is given a role. Example: 
 
+If you have any question on this project, please don't hesitate to contact me at 20091572@mail.wit.ie
