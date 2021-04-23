@@ -20,6 +20,7 @@ export default class TeamCalendar extends Component {
       value,
       selectedValue: value
     });
+    //console.log(moment(Date.now()).format("YYYY/MM/DD"))
   }
     
   onPanelChange = value => {
@@ -131,7 +132,7 @@ export default class TeamCalendar extends Component {
             
     return (
       <>
-        <Alert message={`You selected date: ${selectedValue && selectedValue.format('YYYY-MM-DD')}`}/>
+        <Alert message={`You selected date: ${selectedValue && selectedValue.format('YYYY/MM/DD')}`}/>
         <Button type='primary' disabled={!this.isAbleToEditCalendar()} onClick={() => this.setState({isShownEventForm: true})}>Edit Events</Button>
         <Calendar 
           dateCellRender={dateCellRender} 
