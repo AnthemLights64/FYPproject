@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Card, Form, Input, Button, Radio, DatePicker, message } from 'antd';
+import { Card, Form, Input, Button, Radio, DatePicker, message, Cascader } from 'antd';
 import PicturesWall from './picturesWall';
 import {ArrowLeftOutlined} from '@ant-design/icons';
 import {useHistory} from 'react-router-dom';
@@ -7,9 +7,16 @@ import getQuery from '../../utils/urlUtils';
 import moment from 'moment';
 import RichTextEditor from './rich-text-editor';
 import {reqAddOrUpdateMember} from '../../api';
+import {nationalityList} from '../../utils/constants';
 
 const {Item} = Form;
 const Operations = () => {
+
+    const options = nationalityList;
+
+    function displayRender(label) {
+        return label[label.length - 1];
+    }
 
     // Specify the configuration object for the Item layout
     const formItemLayout = {
@@ -62,7 +69,6 @@ const Operations = () => {
                 //const dob = moment(moment_dob).format('YYYY-MM-DD');
                 //console.log(gender)
                 //console.log(dob)
-
                 const photo = pw.current.getImages();
                 const details = editor.current.getDetails();
                 const member = {name, nickname, position, gender, dob, nationality, phone, address, photo, details}
@@ -121,13 +127,20 @@ const Operations = () => {
                     <Radio.Group name="radiogroup" onChange={onChange} value={value}>
                         <Radio value="Male">Male</Radio>
                         <Radio value="Female">Female</Radio>
+                        <Radio value="Intersex">Intersex</Radio>
                     </Radio.Group>
                 </Item>
                 <Item label="DoB" initialValue={moment(member.dob)} name='dob'>
                     <DatePicker />
                 </Item>
                 <Item label="Nationality" initialValue={member.nationality} name='nationality'>
-                    <Input placeholder='Please input the nationality'/>
+                    {/* <Input placeholder='Please input the nationality'/> */}
+                    <Cascader 
+                        options={options} 
+                        placeholder="Please select the nationality." 
+                        expandTrigger="hover"
+                        displayRender={displayRender}
+                    />
                 </Item>
                 <Item label="Phone No." initialValue={member.phone} name='phone'>
                     <Input placeholder='Please input the phone number'/>

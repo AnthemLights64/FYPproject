@@ -6,7 +6,7 @@ const memberSchema = new mongoose.Schema({
     position: {type: String, required: true},
     gender: {type: String},
     dob: {type: String},
-    nationality: {type: String},
+    nationality: {type: Array, default: []},
     phone: {type: String},
     address: {type: String},
     photo: {type: Array, default: []},
