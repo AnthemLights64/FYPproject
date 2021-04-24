@@ -20,7 +20,7 @@ export default class TeamCalendar extends Component {
       value,
       selectedValue: value
     });
-    //console.log(moment(Date.now()).format("YYYY/MM/DD"))
+    //console.log(this.state.value)
   }
     
   onPanelChange = value => {
