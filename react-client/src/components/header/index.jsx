@@ -33,6 +33,14 @@ class Header extends Component {
                 }
             }
         });
+        switch (path) {
+            case '/home/LPLSpring': title = 'LPL Spring'; break;
+            case '/home/LPLSummer': title = 'LPL Summer'; break;
+            case '/home/MSI': title = 'MSI'; break;
+            case '/home/World': title = 'World'; break;
+            case '/member/details': title = 'Member details'; break;
+            default: break;
+        }
         return title;
     }
 
