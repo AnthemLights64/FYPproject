@@ -1,4 +1,3 @@
-This project is still being developed.
 ## Table of Contents
 - [Backgroud](#background)
 - [Introduction](#introduction)
@@ -47,21 +46,28 @@ Comment out the AWS server url, use localhost.
 
 ## Features
 - **Login**
+![login](/screenshots/login.png)
 An administrator account will be created when the project is first run. 
 `Username`: `admin`
 `Password`: `admin`
 Administrator can create users after logging in the system.
 - **Home Page**
+![homepage](/screenshots/homepage.png)
 This page displays some achievements of RNG.
 - **Calendar**
+![calendar](/screenshots/calendar.png)
 This is a calendar where users can check the events of the club. Users who have management permissions can edit the calendar.
 - **Members**
-This page displays all the members of this club. If you click on the card of each member, you will see the details of this member. These details are designed by manager of this system. (There is a rich text editor in member information management, manager will edit the details.) Example:
+![members](/screenshots/members.png)
+This page displays all the members of this club. If you click on the card of each member, you will see the details of this member. These details are designed by manager of this system. (There is a rich text editor in member information management, manager will edit the details.) 
 - **Member Information Management**
-Users who have permission to this page can do the CRUD operations of members. Example:
+![memberManagement](/screenshots/memberManagement.png)
+Users who have permission to this page can do the CRUD operations of members. 
 - **User Management**
-Users who have permission to this page can create user, update user and delete user. Example:
+![userManagement](/screenshots/userManagement.png)
+Users who have permission to this page can create user, update user and delete user. 
 - **Role Management**
-Users who have permission to this page can create role, delete role and set role permission. Role permissions will determine which modules the user can access. When users are created, each user is given a role. Example: 
+![roleManagement](/screenshots/roleManagement.png)
+Users who have permission to this page can create role, delete role and set role permission. Role permissions will determine which modules the user can access. When users are created, each user is given a role. 
 
 If you have any question on this project, please don't hesitate to contact me at 20091572@mail.wit.ie
