@@ -40,25 +40,25 @@ export default class LPLSummer extends Component {
                             <img style={{maxWidth: 700}} src={img1} alt=""/>
                         </div>
                         <div>
-                            <div style={{textAlign: 'center'}}>
+                            <div style={{textAlign: 'justify'}}>
                                 <p class="p-content">RNG and iG have both secured their tickets to the Worlds. In a series of tournaments this year LPL's teams have shown their strength to all regions of the world and the competitive game is bound to compete for first place.</p>
                                 <p>RNG took on IG in a BO5 five-game, three-win format. </p><p>In the first game, RNG scored a point, Uzi Kaisa played well and won the MVP.</p><p>In the second game, RNG's opening line change tactics successfully suppressed IG, Uzi was unstoppable and then cut the MVP, RNG 2-0 to get the match point.</p><p>In the third game, after NING grabbed the dragon, IG turned the tide against the wind and pulled back a city.</p><p>In the fourth game, IG took a perfect BP.</p><p>In the fifth game, RNG replaced the jungler mlxg. RNG in the middle was broken two roads, but also two incisors forced, in the final group battle in the double c perfect play against the wind flip, 3-2 victory over IG to win the LPL summer finals championship.
                                 </p>
                             </div>
                         </div>
-                        <div class="row" style={{textAlign: 'center'}}>
-                            <div style={{flex: 10, maxWidth: 500, margin: 30}}>
+                        <div className="row image2">
+                            <div className="wrapper">
                                 <div class="image-v">
                                     <img src={img2} alt=""/>
                                 </div>
                             </div>
-                            <div style={{flex: 10, maxWidth: 500, margin: 30}}>
+                            <div className="wrapper">
                                 <div class="image-v">
                                     <img src={img3} alt=""/>
                                 </div>
                             </div>
                         </div>
-                        <div className="row" style={{textAlign: 'center'}}>
+                        <div style={{textAlign: 'center'}}>
                                 <blockquote className="blockquote">
                                 2018 has been a lucky year for the RNG, and hopefully it will bring good fortune to the end.
                                 </blockquote>

@@ -39,25 +39,25 @@ export default class LPLSpring extends Component {
                             <img style={{maxWidth: 700}} src={img1} alt=""/>
                         </div>
                         <div>
-                            <div style={{textAlign: 'center'}}>
+                            <div style={{textAlign: 'justify'}}>
                                 <p class="p-content">CONGRATULATIONS to RNG for winning the 2021 LPL Spring Championship with a 3-1 victory over FPX! They will also represent LPL at MSI 2021!</p>
                                 <p>This spring, RNG shouldered all the expectations and doubts, and rode the waves. </p><p>A season of hard work and hard work has resulted in endless surprises, and although we have been in the abyss, we have never hit rock bottom. </p><p>Today, RNG is shining, just to watch the gold fall across the sky again. </p><p>The RNG are announcing to the world that their journey is much more than that, that they are aiming for the sky and that their ambition is to go far!
                                 </p>
                             </div>
                         </div>
-                        <div class="row" style={{textAlign: 'center'}}>
-                            <div style={{flex: 10, maxWidth: 500, margin: 30}}>
+                        <div className="row image2">
+                            <div className="wrapper">
                                 <div class="image-v">
                                     <img src={img2} alt=""/>
                                 </div>
                             </div>
-                            <div style={{flex: 10, maxWidth: 500, margin: 30}}>
+                            <div className="wrapper">
                                 <div class="image-v">
                                     <img src={img3} alt=""/>
                                 </div>
                             </div>
                         </div>
-                        <div className="row" style={{textAlign: 'center'}}>
+                        <div style={{textAlign: 'center'}}>
                                 <blockquote className="blockquote">
                                 This is the power of the new generation of juniors and we expect and aspire to better results.
                                 </blockquote>
